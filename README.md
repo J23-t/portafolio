@@ -1,20 +1,39 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Jordan Talledo – Portafolio Profesional
 
-# Run and deploy your AI Studio app
+Portafolio personal de Jordan Enrique Talledo Salazar, Desarrollador Full Stack especializado en Next.js, Firebase, SQL Server y React.
 
-This contains everything you need to run your app locally.
+🌐 **Live:** [jordantalledo.com](https://jordantalledo.com)
 
-View your app in AI Studio: https://ai.studio/apps/drive/1AuZfpIvEoscItdhdrU-JQhbLS4btM2Jd
+## Stack
 
-## Run Locally
+- **Framework:** React 19 + TypeScript + Vite
+- **Animaciones:** Framer Motion
+- **Estilos:** Tailwind CSS (CDN) + CSS Variables
+- **Formulario:** Formspree
+- **Notificaciones:** Sonner
+- **Fuentes:** Orbitron · Space Grotesk · JetBrains Mono
 
-**Prerequisites:**  Node.js
+## Inicio rápido
 
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # Build de producción
+npm run preview    # Preview del build
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Estructura
+
+```
+├── components/     # Componentes React
+├── config/         # Configuración centralizada (site.ts)
+├── data/           # Datos: proyectos, skills, experiencia
+├── public/         # Assets estáticos, sitemap, robots.txt
+└── index.html      # Entry point con SEO completo
+```
+
+## Contacto
+
+- 📧 programadortalledo@gmail.com
+- 📱 +51 977 479 152
+- 🐙 [github.com/J23-t](https://github.com/J23-t)

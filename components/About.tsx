@@ -1,132 +1,128 @@
 import React from 'react';
-// Fix for framer-motion variants type error by importing Variants type
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
 
-// Fix for framer-motion variants type error
-const sectionContainerVariants: Variants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
+const stats = [
+  { value: 2, suffix: '+', label: 'Años de experiencia', color: 'var(--neon-cyan)' },
+  { value: 10, suffix: '+', label: 'Proyectos entregados', color: 'var(--neon-violet)' },
+  { value: 4, suffix: '', label: 'Certificaciones', color: 'var(--neon-green)' },
+  { value: 100, suffix: '%', label: 'Clientes satisfechos', color: 'var(--neon-cyan)' },
+];
 
-// Fix for framer-motion variants type error
-const itemVariants: Variants = {
-  hidden: { y: 25, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 100,
-      damping: 20,
-    },
-  },
-};
+// Datos personales que humanizan el perfil
+const personalFacts = [
+  { icon: 'location-outline', text: 'Lima, Perú 🇵🇪' },
+  { icon: 'school-outline', text: 'Técnico en Desarrollo de Sistemas de Información' },
+  { icon: 'heart-outline', text: 'Apasionado por el diseño y el código' },
+  { icon: 'rocket-outline', text: 'Siempre aprendiendo algo nuevo' },
+];
 
-// Fix for framer-motion variants type error
-const imageVariants: Variants = {
-  hidden: { scale: 0.9, opacity: 0 },
-  visible: {
-    scale: 1,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 80,
-      damping: 15,
-      delay: 0.2,
-    },
-  },
-};
-
+// Clip-path hexagonal para la foto
+const HEX_CLIP = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
 
 const About: React.FC = () => {
+  const { ref: statsRef, inView: statsInView } = useInView({ triggerOnce: true, threshold: 0 });
+
   return (
-    <section id="about" className="py-20 lg:py-32 relative overflow-hidden">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-      <motion.div 
-        className="container mx-auto px-4 sm:px-6"
-        variants={sectionContainerVariants}
-      >
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <motion.h2 
-            className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-slate-900 via-cyan-800 to-slate-900 dark:from-white dark:via-cyan-400 dark:to-white bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Sobre Mí
-          </motion.h2>
-          <motion.div 
-            className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-6 rounded-full"
-            initial={{ width: 0 }}
-            whileInView={{ width: 96 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          />
+    <section id="about" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-surface)' }}>
+      <div className="absolute inset-0 cyber-grid opacity-25 pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6">
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-14">
+          <p className="section-label mb-3">// SOBRE MÍ</p>
+          <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">QUIÉN SOY<span className="neon-text">.</span></h2>
+          <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
         </motion.div>
 
-        <div className="grid md:grid-cols-5 gap-8 sm:gap-12 items-center">
-          <motion.div className="md:col-span-3 text-lg text-slate-600 dark:text-slate-400 space-y-6 leading-relaxed" variants={itemVariants}>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              ¡Hola! Soy <span className="font-bold text-cyan-600 dark:text-cyan-400">Jordan</span>, un desarrollador web apasionado por crear soluciones digitales que sean tanto funcionales como estéticamente atractivas. Mi viaje en el mundo de la programación comenzó con un profundo interés por entender cómo la tecnología puede resolver problemas del mundo real y mejorar la vida de las personas.
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-              Disfruto trabajando en todo el stack de desarrollo, desde la conceptualización de una idea hasta su implementación final. Me especializo en el ecosistema de <span className="font-semibold text-slate-800 dark:text-slate-200">JavaScript</span>, utilizando herramientas modernas como <span className="font-semibold text-cyan-600 dark:text-cyan-400">React</span> y <span className="font-semibold text-cyan-600 dark:text-cyan-400">Node.js</span> para construir aplicaciones rápidas, escalables y fáciles de usar.
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              Fuera del código, me encanta mantenerme actualizado sobre las últimas tendencias tecnológicas, contribuir a proyectos de código abierto y explorar nuevas herramientas que puedan mejorar mi flujo de trabajo. Siempre estoy buscando nuevos desafíos que me permitan crecer como profesional y como persona.
-            </motion.p>
+        <div className="grid lg:grid-cols-2 gap-14 items-start">
+          {/* Left: texto humanizado */}
+          <motion.div className="space-y-6" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+            {/* Historia específica — no genérica */}
+            <p className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Soy <span className="font-semibold neon-text">Jordan Talledo</span>, desarrollador web de Lima, Perú.
+              A los 18 años construí mi primer proyecto real — una tienda online para una ferretería local que no tenía presencia digital.
+              Ese proyecto me enseñó que el código bien hecho cambia negocios reales.
+            </p>
+            <p className="text-base leading-relaxed" style={{ color: 'rgba(255,255,255,0.65)' }}>
+              Hoy me especializo en{' '}
+              <span className="font-mono-jb" style={{ color: 'var(--neon-cyan)' }}>Next.js</span>,{' '}
+              <span className="font-mono-jb" style={{ color: 'var(--neon-cyan)' }}>Firebase</span> y{' '}
+              <span className="font-mono-jb" style={{ color: 'var(--neon-cyan)' }}>SQL Server</span>{' '}
+              para construir aplicaciones que la gente realmente usa. Cada proyecto que entrego tiene que funcionar bien, verse bien y resolver un problema real.
+            </p>
+
+            {/* Datos personales — humaniza el perfil */}
+            <div className="grid grid-cols-2 gap-3 pt-2">
+              {personalFacts.map(({ icon, text }) => (
+                <div key={text} className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 text-sm"
+                    style={{ background: 'rgba(0,245,255,0.08)', border: '1px solid rgba(0,245,255,0.15)', color: 'var(--neon-cyan)' }}>
+                    <ion-icon name={icon} />
+                  </div>
+                  <span className="text-sm" style={{ color: 'rgba(255,255,255,0.6)', fontFamily: "'Space Grotesk', sans-serif" }}>{text}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Stats */}
+            <div ref={statsRef} className="grid grid-cols-2 gap-3 pt-2">
+              {stats.map(({ value, suffix, label, color }) => (
+                <div key={label} className="glass-card rounded-xl p-4 text-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-px"
+                    style={{ background: `linear-gradient(to right, transparent, ${color}, transparent)` }} />
+                  <p className="font-orbitron font-bold text-2xl sm:text-3xl" style={{ color }}>
+                    {statsInView ? <CountUp end={value} duration={1.8} suffix={suffix} /> : <span>0{suffix}</span>}
+                  </p>
+                  <p className="text-xs mt-1.5" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: "'Space Grotesk', sans-serif" }}>{label}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
-          <motion.div className="md:col-span-2 flex justify-center" variants={imageVariants}>
-            <div className="relative group w-64 h-64 sm:w-80 sm:h-80">
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-br from-cyan-500 via-blue-500 to-purple-600 rounded-full blur-2xl opacity-40 group-hover:opacity-70 transition-opacity duration-500"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 90, 0],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              {/* AQUÍ PUEDES CAMBIAR LA IMAGEN DE PERFIL */}
-              <motion.img
-                src="foto/perfil.png"
-                alt="Jordan Talledo - Desarrollador Full Stack"
-                className="relative w-full h-full object-cover rounded-full shadow-2xl border-4 border-slate-50 dark:border-slate-800 group-hover:border-cyan-500/50 transition-all duration-500"
-                whileHover={{ scale: 1.05, rotate: 5 }}
-                transition={{ duration: 0.3 }}
-              />
+
+          {/* Right: foto hexagonal + disponibilidad */}
+          <motion.div className="flex flex-col items-center gap-8" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+            {/* Foto con clip-path hexagonal — único, no circular genérico */}
+            <div className="relative flex items-center justify-center">
+              {/* Glow de fondo */}
+              <div className="absolute inset-0 opacity-30 pointer-events-none"
+                style={{ background: 'radial-gradient(circle, var(--neon-cyan), transparent 70%)', filter: 'blur(30px)' }} />
+
+              {/* Hexágono exterior — borde animado */}
               <motion.div
-                className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center shadow-lg"
-                whileHover={{ scale: 1.2, rotate: 180 }}
-                transition={{ duration: 0.5 }}
+                className="absolute"
+                style={{
+                  width: '300px', height: '300px',
+                  clipPath: HEX_CLIP,
+                  background: 'linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))',
+                  padding: '3px',
+                }}
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
               >
-                <span className="text-2xl">✨</span>
+                <div style={{ width: '100%', height: '100%', clipPath: HEX_CLIP, background: 'var(--dark-surface)' }} />
               </motion.div>
+
+              {/* Foto */}
+              <div style={{ width: '280px', height: '280px', clipPath: HEX_CLIP, overflow: 'hidden', position: 'relative', zIndex: 1 }}>
+                <img
+                  src="foto/perfil.png"
+                  alt="Jordan Talledo - Desarrollador Full Stack en Lima, Perú"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                  loading="lazy" width="280" height="280"
+                />
+              </div>
+
+              {/* Badge disponible */}
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-1.5 rounded-full glass-card whitespace-nowrap z-20"
+                style={{ border: '1px solid rgba(0,255,136,0.3)' }}>
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: 'var(--neon-green)', boxShadow: '0 0 6px var(--neon-green)' }} />
+                <span className="text-xs font-medium" style={{ color: 'var(--neon-green)', fontFamily: "'Space Grotesk', sans-serif" }}>Disponible para proyectos</span>
+              </div>
             </div>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

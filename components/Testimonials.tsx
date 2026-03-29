@@ -1,115 +1,152 @@
-import React from 'react';
-// Fix for framer-motion variants type error by importing Variants type
-import { motion, Variants } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { testimonials } from '../data/testimonials';
 
-// Fix for framer-motion variants type error
-const sectionContainerVariants: Variants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-// Fix for framer-motion variants type error
-const itemVariants: Variants = {
-  hidden: { y: 25, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
-};
-
-const getInitials = (name: string) => {
-    return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
-}
+const getInitials = (name: string) =>
+  name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
 
 const Testimonials: React.FC = () => {
+  const [active, setActive] = useState(0);
+
+  const prev = () => setActive(a => (a - 1 + testimonials.length) % testimonials.length);
+  const next = () => setActive(a => (a + 1) % testimonials.length);
+
+  // Auto-avance en mobile
+  React.useEffect(() => {
+    const t = setInterval(() => setActive(a => (a + 1) % testimonials.length), 5000);
+    return () => clearInterval(t);
+  }, []);
+
   return (
-    <section id="testimonials" className="py-20 lg:py-32 relative overflow-hidden">
-      {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-50/50 via-transparent to-blue-50/50 dark:from-cyan-950/20 dark:via-transparent dark:to-blue-950/20" />
-      <motion.div 
-        className="container mx-auto px-6"
-        variants={sectionContainerVariants}
-      >
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <motion.h2 
-            className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-slate-900 via-cyan-800 to-slate-900 dark:from-white dark:via-cyan-400 dark:to-white bg-clip-text text-transparent"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Testimonios
-          </motion.h2>
-          <motion.p 
-            className="text-lg text-slate-600 dark:text-slate-400 mt-4 max-w-2xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            Lo que mis clientes, colaboradores y supervisores dicen de mi trabajo
-          </motion.p>
-          <motion.div 
-            className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-6 rounded-full"
-            initial={{ width: 0 }}
-            whileInView={{ width: 96 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          />
+    <section id="testimonials" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-surface)' }}>
+      <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
+
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-14">
+          <p className="section-label mb-3">// TESTIMONIOS</p>
+          <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
+            LO QUE DICEN<span className="neon-text">.</span>
+          </h2>
+          <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
         </motion.div>
 
-        <motion.div 
-          className="grid md:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto"
-          variants={sectionContainerVariants}
-        >
-          {testimonials.map((testimonial, index) => (
-            <motion.div 
-              key={index} 
-              variants={itemVariants}
-              className="relative bg-white dark:bg-slate-800 p-10 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 flex flex-col items-center text-center max-w-3xl group overflow-hidden"
-              whileHover={{ y: -8, scale: 1.02 }}
-              transition={{ duration: 0.4 }}
-            >
-              {/* Quote icon background */}
-              <div className="absolute top-6 left-6 text-8xl text-cyan-500/10 dark:text-cyan-400/10 font-serif leading-none">"“"</div>
-              <div className="absolute bottom-6 right-6 text-8xl text-cyan-500/10 dark:text-cyan-400/10 font-serif leading-none rotate-180">"“"</div>
-              
-              {/* Avatar with gradient border */}
-              <motion.div 
-                className="relative w-28 h-28 rounded-full mb-8 bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-500 p-1 shadow-xl"
-                whileHover={{ rotate: 360, scale: 1.1 }}
-                transition={{ duration: 0.8 }}
+        {/* Mobile: carrusel. Desktop: grid */}
+        <>
+          {/* Desktop grid — 3 columnas */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {testimonials.map((t, i) => (
+              <motion.div key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.4 }}
+                viewport={{ once: true }}
+                className="glass-card rounded-xl p-7 flex flex-col relative overflow-hidden"
+                style={{ borderTop: '2px solid rgba(0,245,255,0.15)' }}
               >
-                <div className="w-full h-full rounded-full bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
-                  <span className="text-4xl font-bold bg-gradient-to-br from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent">
-                    {getInitials(testimonial.name)}
-                  </span>
+                {/* Quote mark decorativo */}
+                <div className="absolute top-4 right-5 font-orbitron font-black text-6xl leading-none select-none pointer-events-none"
+                  style={{ color: 'rgba(0,245,255,0.05)' }}>"</div>
+
+                {/* Stars */}
+                <div className="flex gap-1 mb-5">
+                  {[...Array(5)].map((_, s) => (
+                    <span key={s} style={{ color: 'var(--neon-cyan)', fontSize: '13px' }}>★</span>
+                  ))}
+                </div>
+
+                <p className="text-sm leading-relaxed flex-grow mb-6"
+                  style={{ color: 'rgba(255,255,255,0.65)', fontStyle: 'italic', fontFamily: "'Space Grotesk', sans-serif" }}>
+                  "{t.quote}"
+                </p>
+
+                <div className="flex items-center gap-3 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))' }}>
+                    <span className="font-orbitron font-bold text-xs" style={{ color: '#000' }}>
+                      {getInitials(t.name)}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.name}</p>
+                    <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Space Grotesk', sans-serif" }}>{t.title}</p>
+                  </div>
                 </div>
               </motion.div>
-              
-              {/* Quote text */}
-              <p className="relative z-10 text-lg text-slate-700 dark:text-slate-300 mb-8 italic leading-relaxed font-medium">
-                "{testimonial.quote}"
-              </p>
-              
-              {/* Author info with divider */}
-              <div className="relative z-10 mt-auto pt-6 border-t-2 border-gradient-to-r from-transparent via-cyan-500 to-transparent w-full">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-1">{testimonial.name}</h3>
-                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent">
-                  {testimonial.title}
-                </p>
+            ))}
+          </div>
+
+          {/* Mobile carrusel */}
+          <div className="md:hidden">
+            <div className="relative overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -40 }}
+                  transition={{ duration: 0.25 }}
+                  className="glass-card rounded-xl p-6"
+                  style={{ borderTop: '2px solid rgba(0,245,255,0.15)' }}
+                >
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, s) => (
+                      <span key={s} style={{ color: 'var(--neon-cyan)', fontSize: '13px' }}>★</span>
+                    ))}
+                  </div>
+                  <p className="text-sm leading-relaxed mb-6"
+                    style={{ color: 'rgba(255,255,255,0.65)', fontStyle: 'italic', fontFamily: "'Space Grotesk', sans-serif" }}>
+                    "{testimonials[active].quote}"
+                  </p>
+                  <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))' }}>
+                      <span className="font-orbitron font-bold text-xs" style={{ color: '#000' }}>
+                        {getInitials(testimonials[active].name)}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{testimonials[active].name}</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Space Grotesk', sans-serif" }}>{testimonials[active].title}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Controles carrusel */}
+            <div className="flex items-center justify-between mt-5">
+              <button onClick={prev}
+                className="w-10 h-10 flex items-center justify-center rounded-lg glass-card"
+                style={{ border: '1px solid rgba(0,245,255,0.2)' }}
+                aria-label="Testimonio anterior">
+                <ion-icon name="chevron-back-outline" style={{ color: 'var(--neon-cyan)', fontSize: '18px' } as React.CSSProperties} />
+              </button>
+
+              {/* Dots */}
+              <div className="flex gap-2">
+                {testimonials.map((_, i) => (
+                  <button key={i} onClick={() => setActive(i)}
+                    className="rounded-full transition-all duration-200"
+                    style={{
+                      width: i === active ? '20px' : '8px',
+                      height: '8px',
+                      background: i === active ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.2)',
+                    }}
+                    aria-label={`Ir al testimonio ${i + 1}`}
+                  />
+                ))}
               </div>
-              
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-cyan-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
+
+              <button onClick={next}
+                className="w-10 h-10 flex items-center justify-center rounded-lg glass-card"
+                style={{ border: '1px solid rgba(0,245,255,0.2)' }}
+                aria-label="Siguiente testimonio">
+                <ion-icon name="chevron-forward-outline" style={{ color: 'var(--neon-cyan)', fontSize: '18px' } as React.CSSProperties} />
+              </button>
+            </div>
+          </div>
+        </>
+      </div>
     </section>
   );
 };

@@ -1,64 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
-import Skills from './components/Skills';
 import Projects from './components/Projects';
+import MidCTA from './components/MidCTA';
+import Services from './components/Services';
+import Process from './components/Process';
+import Testimonials from './components/Testimonials';
+import Skills from './components/Skills';
 import Experience from './components/Experience';
 import Certifications from './components/Certifications';
-import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import AnimateOnScroll from './components/AnimateOnScroll';
 import BackToTopButton from './components/BackToTopButton';
-import ParticlesBackground from './components/ParticlesBackground';
+import LoadingScreen from './components/LoadingScreen';
+import WhatsAppFloat from './components/WhatsAppFloat';
+import { ErrorBoundary } from './components/ErrorBoundary';
+
+// Divisor visual entre secciones — transición intencional, no abrupta
+const Divider: React.FC = () => (
+  <div className="section-divider" aria-hidden="true" />
+);
 
 const App: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
-  const toggleTheme = () => {
-    setIsDarkMode(prevMode => !prevMode);
-  };
+  const [isDarkMode] = React.useState(true);
+  const [loading, setLoading] = useState(true);
+  const toggleTheme = () => {};
 
   return (
-    <div className="bg-slate-50 dark:bg-[#0a192f] text-slate-700 dark:text-slate-400 transition-colors duration-500 relative">
-      <ParticlesBackground isDarkMode={isDarkMode} />
-      <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-      <main role="main" aria-label="Main content" className="relative z-10">
-        <Hero isDarkMode={isDarkMode} />
-        <AnimateOnScroll>
-          <About />
-        </AnimateOnScroll>
-        <AnimateOnScroll>
-          <Skills />
-        </AnimateOnScroll>
-        <AnimateOnScroll>
-          <Projects />
-        </AnimateOnScroll>
-        <AnimateOnScroll>
-          <Experience />
-        </AnimateOnScroll>
-        <AnimateOnScroll>
-          <Certifications />
-        </AnimateOnScroll>
-        <AnimateOnScroll>
-          <Testimonials />
-        </AnimateOnScroll>
-        <AnimateOnScroll>
-          <Contact />
-        </AnimateOnScroll>
-      </main>
-      <Footer />
-      <BackToTopButton />
-    </div>
+    <ErrorBoundary>
+      <LoadingScreen onDone={() => setLoading(false)} />
+      {!loading && (
+        <div style={{ background: 'var(--dark-bg)', color: 'rgba(255,255,255,0.8)' }}>
+          <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+          <main role="main" aria-label="Contenido principal">
+            <Hero isDarkMode={isDarkMode} />
+            <Divider />
+            <About />
+            <Divider />
+            <Projects />
+            <MidCTA />
+            <Divider />
+            <Services />
+            <Process />
+            <Divider />
+            <Testimonials />
+            <Divider />
+            <Skills />
+            <Experience />
+            <Certifications />
+            <Divider />
+            <Contact />
+          </main>
+          <Footer />
+          <BackToTopButton />
+          <WhatsAppFloat />
+        </div>
+      )}
+    </ErrorBoundary>
   );
 };
 

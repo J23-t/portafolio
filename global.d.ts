@@ -1,16 +1,12 @@
-// Global TypeScript declarations for custom elements and React
-import 'react';
-
+// Global type declarations for custom elements
 declare global {
-  namespace JSX {
+  namespace React.JSX {
     interface IntrinsicElements {
-      'ion-icon': {
+      'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
         name?: string;
-        class?: string;
-        className?: string;
-        style?: React.CSSProperties;
-        [key: string]: any;
       };
     }
   }
 }
+
+export {};

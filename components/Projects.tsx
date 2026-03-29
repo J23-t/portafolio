@@ -1,286 +1,267 @@
-import React, { useState } from 'react';
-// Fix for framer-motion variants type error by importing Variants type
-import { motion, Variants, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projects';
-
-// FIX: To resolve 'ion-icon' type errors, the namespace for JSX intrinsic elements was updated to `React.JSX`.
-// This is necessary for modern React projects using the automatic JSX runtime.
-declare global {
-  namespace React.JSX {
-    interface IntrinsicElements {
-      'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        name?: string;
-      };
-    }
-  }
-}
-
-// Fix for framer-motion variants type error
-const sectionContainerVariants: Variants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-// Fix for framer-motion variants type error
-const itemVariants: Variants = {
-  hidden: { y: 25, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
-};
 
 type ProjectType = typeof projects[0];
 
-const ProjectCard: React.FC<{ project: ProjectType }> = ({ project }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const handleShare = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    const shareData = {
-      title: project.title,
-      text: project.description,
-      url: project.liveUrl,
+// Full-screen project modal
+const ProjectModal: React.FC<{ project: ProjectType; onClose: () => void }> = ({ project, onClose }) => {
+  // Escape key + body scroll lock
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
     };
-
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        console.error("Error al compartir:", err);
-      }
-    } else {
-      try {
-        await navigator.clipboard.writeText(project.liveUrl);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        console.error("Error al copiar al portapapeles:", err);
-      }
-    }
-  };
+  }, [onClose]);
 
   return (
     <motion.div
-      layout
-      variants={itemVariants}
-      className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20"
-      whileHover={{ y: -12, scale: 1.02 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Detalles: ${project.title}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      style={{ background: 'rgba(2,4,8,0.95)', backdropFilter: 'blur(20px)' }}
+      onClick={onClose}
     >
-      <div className="relative overflow-hidden h-56 cursor-pointer group" onClick={() => window.open(project.liveUrl, '_blank')}>
-        <motion.img 
-          src={project.image} 
-          alt={project.title} 
-          className="w-full h-full object-cover object-center"
-          whileHover={{ scale: 1.15 }}
-          transition={{ duration: 0.4 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300"></div>
-        <motion.div
-          className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/20 transition-colors duration-300"
-        />
-        <div className="absolute bottom-4 left-4">
-          <motion.h3 
-            className="text-2xl font-bold text-white tracking-tight"
-            initial={{ x: -20, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            {project.title}
-          </motion.h3>
-        </div>
-        <motion.div
-          className="absolute top-4 right-4 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100"
-          whileHover={{ scale: 1.2, rotate: 45 }}
-          transition={{ duration: 0.3 }}
-        >
-          <ion-icon name="arrow-forward-outline" className="text-white text-xl" />
-        </motion.div>
-      </div>
-      
-      <div className="p-6 flex flex-col flex-grow">
-        <p className="text-slate-600 dark:text-slate-400 mb-4 flex-grow">{project.description}</p>
-        
-         <div className="py-4 border-t border-b border-slate-200 dark:border-slate-700 my-4">
-            <h4 className="font-bold text-sm uppercase tracking-wider text-slate-800 dark:text-slate-200 mb-2">Propósito del Proyecto</h4>
-            <p className="text-sm text-slate-600 dark:text-slate-400">{project.purpose}</p>
-            <h4 className="font-bold text-sm uppercase tracking-wider text-slate-800 dark:text-slate-200 mt-3 mb-2">Tecnología Principal</h4>
-            <p className="text-sm text-slate-600 dark:text-slate-400">{project.mainTech}</p>
-        </div>
-        
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map((tag, i) => (
-            <span key={i} className="px-3 py-1 bg-cyan-100 text-cyan-800 dark:bg-cyan-900/50 dark:text-cyan-300 text-sm font-medium rounded-full">
-              {tag}
-            </span>
-          ))}
+      <motion.div
+        initial={{ scale: 0.85, opacity: 0, y: 40 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.85, opacity: 0, y: 40 }}
+        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+        className="glass-card rounded-2xl overflow-hidden max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+        style={{ border: '1px solid rgba(0,245,255,0.2)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Image header */}
+        <div className="relative h-56 overflow-hidden">
+          <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(6,13,20,1) 0%, rgba(6,13,20,0.5) 50%, transparent 100%)' }} />
+          <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(to right, transparent, var(--neon-cyan), transparent)' }} />
+
+          {/* Close */}
+          <button onClick={onClose}
+            className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center glass-card rounded-lg"
+            aria-label="Cerrar modal"
+            style={{ border: '1px solid rgba(0,245,255,0.3)' }}>
+            <ion-icon name="close-outline" style={{ color: 'var(--neon-cyan)', fontSize: '18px' } as React.CSSProperties} />
+          </button>
+
+          <div className="absolute bottom-4 left-6">
+            <span className="cyber-tag mb-2 block w-fit">{project.category}</span>
+            <h2 className="font-orbitron font-bold text-2xl text-white">{project.title}</h2>
+          </div>
         </div>
 
-        <div className="mt-auto flex justify-between items-center pt-4 border-t border-slate-200 dark:border-slate-700">
-          <div className="flex items-center gap-4">
-            <a
-              href={project.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-3xl text-slate-500 dark:text-slate-400 hover:text-cyan-400 transition-colors duration-300"
-              aria-label="Ver código fuente"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ion-icon name="logo-github" />
-            </a>
-            <div className="relative">
-              <button
-                onClick={handleShare}
-                className="text-3xl text-slate-500 dark:text-slate-400 hover:text-cyan-400 transition-colors duration-300"
-                aria-label="Compartir proyecto"
-              >
-                <ion-icon name="share-social-outline" />
-              </button>
-              <AnimatePresence>
-                {copied && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.9 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-slate-900 text-white text-xs rounded-md shadow-lg"
-                  >
-                    ¡Copiado!
-                  </motion.div>
-                )}
-              </AnimatePresence>
+        {/* Content */}
+        <div className="p-6 space-y-6">
+          <p style={{ color: 'rgba(255,255,255,0.6)' }}>{project.description}</p>
+
+          {/* Tech */}
+          <div>
+            <p className="section-label mb-3" style={{ fontSize: '0.6rem' }}>TECNOLOGÍAS</p>
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map(tag => <span key={tag} className="cyber-tag">{tag}</span>)}
             </div>
-            <button 
-                onClick={() => setIsExpanded(!isExpanded)} 
-                className="text-sm flex items-center gap-1 text-slate-500 dark:text-slate-400 hover:text-cyan-400 transition-colors"
-                aria-expanded={isExpanded}
-            >
-                Detalles
-                <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
-                    <ion-icon name="chevron-down-outline" />
-                </motion.div>
-            </button>
           </div>
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-2 px-5 py-2 bg-cyan-500 text-white font-semibold rounded-lg shadow-sm hover:bg-cyan-600 transition-all duration-300"
-          >
-            Ver Proyecto
-            <ion-icon name="arrow-forward-outline" />
-          </a>
+
+          {/* Details grid */}
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { label: 'PROBLEMA', value: project.problem, color: 'rgba(255,80,80,0.7)' },
+              { label: 'SOLUCIÓN', value: project.solution, color: 'var(--neon-cyan)' },
+              { label: 'RETOS', value: project.challenges, color: 'var(--neon-violet)' },
+            ].map(({ label, value, color }) => (
+              <div key={label} className="rounded-lg p-4" style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${color}20` }}>
+                <p className="font-orbitron text-xs mb-2" style={{ color, fontSize: '0.6rem', letterSpacing: '0.2em' }}>{label}</p>
+                <p className="font-mono-jb text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-2">
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="cyber-btn flex-1 text-center">
+              <span className="flex items-center justify-center gap-2">
+                <ion-icon name="open-outline" />VER DEMO
+              </span>
+            </a>
+            <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer" className="cyber-btn cyber-btn-violet flex-1 text-center">
+              <span className="flex items-center justify-center gap-2">
+                <ion-icon name="logo-github" />CÓDIGO
+              </span>
+            </a>
+          </div>
         </div>
-      </div>
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="px-6 pb-6 overflow-hidden border-t border-slate-200 dark:border-slate-700"
-          >
-            <div className="pt-4 space-y-4">
-                <div>
-                    <h4 className="font-bold text-md text-slate-800 dark:text-slate-200 mb-2">El Problema</h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{project.problem}</p>
-                </div>
-                <div>
-                    <h4 className="font-bold text-md text-slate-800 dark:text-slate-200 mb-2">La Solución</h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{project.solution}</p>
-                </div>
-                 <div>
-                    <h4 className="font-bold text-md text-slate-800 dark:text-slate-200 mb-2">Retos Técnicos</h4>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{project.challenges}</p>
-                </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      </motion.div>
     </motion.div>
   );
 };
 
+const ProjectCard: React.FC<{ project: ProjectType; index: number; onOpen: () => void }> = ({ project, index, onOpen }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      if (navigator.share) await navigator.share({ title: project.title, url: project.liveUrl });
+      else { await navigator.clipboard.writeText(project.liveUrl); setCopied(true); setTimeout(() => setCopied(false), 2000); }
+    } catch {}
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ delay: index * 0.05, duration: 0.4 }}
+      className="glass-card rounded-xl overflow-hidden flex flex-col group cursor-pointer project-card"
+      onClick={onOpen}    >
+      {/* Image */}
+      <div className="relative overflow-hidden h-48">
+        <motion.img
+          src={project.image} alt={project.title}
+          className="w-full h-full object-cover object-center"
+          whileHover={{ scale: 1.08 }} transition={{ duration: 0.5 }}
+          loading="lazy"
+        />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(2,4,8,0.97) 0%, rgba(2,4,8,0.3) 60%, transparent 100%)' }} />
+
+        {/* Hover overlay */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
+          style={{ background: 'rgba(0,245,255,0.05)' }}
+        >
+          <div className="font-orbitron text-xs tracking-widest px-4 py-2 rounded"
+            style={{ border: '1px solid var(--neon-cyan)', color: 'var(--neon-cyan)', background: 'rgba(0,245,255,0.1)' }}>
+            VER DETALLES
+          </div>
+        </motion.div>
+
+        <div className="absolute top-3 left-3 z-10">
+          <span className="cyber-tag">{project.category}</span>
+        </div>
+
+        <div className="absolute bottom-3 left-4 z-10">
+          <h3 className="font-orbitron font-bold text-base text-white">{project.title}</h3>
+          {/* Impacto del proyecto — más convincente que solo el tech stack */}
+          {'impact' in project && (project as any).impact && (
+            <p className="text-xs mt-1 flex items-center gap-1" style={{ color: 'var(--neon-green)', fontFamily: "'Space Grotesk', sans-serif" }}>
+              <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: 'var(--neon-green)' }} />
+              {(project as any).impact}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="p-5 flex flex-col flex-grow">
+        <p className="text-sm leading-relaxed mb-4 flex-grow" style={{ color: 'rgba(255,255,255,0.6)' }}>
+          {project.description}
+        </p>
+
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {project.tags.slice(0, 3).map((tag, i) => <span key={i} className="cyber-tag">{tag}</span>)}
+          {project.tags.length > 3 && (
+            <span className="cyber-tag" style={{ color: 'rgba(255,255,255,0.35)', borderColor: 'rgba(255,255,255,0.1)', background: 'transparent' }}>+{project.tags.length - 3}</span>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid rgba(0,245,255,0.07)' }}>
+          <div className="flex items-center gap-3" onClick={e => e.stopPropagation()}>
+            <a href={project.sourceUrl} target="_blank" rel="noopener noreferrer"
+              className="text-xl transition-all duration-300 hover:neon-text"
+              style={{ color: 'rgba(255,255,255,0.35)' }} aria-label="GitHub">
+              <ion-icon name="logo-github" />
+            </a>
+            <div className="relative">
+              <button onClick={handleShare} className="text-xl transition-all duration-300 hover:neon-text"
+                style={{ color: 'rgba(255,255,255,0.35)' }} aria-label="Compartir">
+                <ion-icon name="share-social-outline" />
+              </button>
+              <AnimatePresence>
+                {copied && (
+                  <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 rounded font-mono-jb text-xs whitespace-nowrap"
+                    style={{ background: 'var(--dark-card)', border: '1px solid rgba(0,245,255,0.3)', color: 'var(--neon-cyan)' }}>
+                    Copiado
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+            className="cyber-btn flex items-center gap-1.5"
+            style={{ padding: '5px 14px', fontSize: '0.58rem' }}>
+            <ion-icon name="open-outline" />DEMO
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const Projects: React.FC = () => {
-    const [filter, setFilter] = useState('Todos');
+  const [filter, setFilter] = useState('Todos');
+  const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
+  const categories = ['Todos', ...Array.from(new Set(projects.map(p => p.category)))];
+  const filtered = filter === 'Todos' ? projects : projects.filter(p => p.category === filter);
 
-    const categories = ['Todos', ...Array.from(new Set(projects.map(p => p.category)))];
+  return (
+    <section id="projects" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-bg)' }}>
+      <div className="absolute inset-0 cyber-grid opacity-25 pointer-events-none" />
 
-    const filteredProjects = filter === 'Todos' ? projects : projects.filter(p => p.category === filter);
-
-    return (
-        <section id="projects" className="py-20 lg:py-32 bg-slate-100 dark:bg-slate-900 relative overflow-hidden z-10">
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50 z-0" />
-        <div className="absolute top-10 right-10 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl z-0" />
-        <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl z-0" />
-        <motion.div 
-            className="container mx-auto px-4 sm:px-6 relative z-20"
-            variants={sectionContainerVariants}
-        >
-            <motion.div className="text-center mb-16" variants={itemVariants}>
-            <motion.h2 
-              className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-slate-900 via-cyan-800 to-slate-900 dark:from-white dark:via-cyan-400 dark:to-white bg-clip-text text-transparent"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-            >
-              Proyectos Destacados
-            </motion.h2>
-            <motion.p 
-              className="text-lg text-slate-600 dark:text-slate-400 mt-4 max-w-2xl mx-auto"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-                Una selección de mis trabajos más recientes y destacados
-            </motion.p>
-            <motion.div 
-              className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-6 rounded-full"
-              initial={{ width: 0 }}
-              whileInView={{ width: 96 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            />
-            </motion.div>
-
-            <motion.div className="flex justify-center flex-wrap gap-2 sm:gap-3 mb-12" variants={itemVariants}>
-                {categories.map(category => (
-                    <motion.button
-                        key={category}
-                        onClick={() => setFilter(category)}
-                        className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 shadow-md ${filter === category ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/50 scale-105' : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:scale-105'}`}
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        {category}
-                    </motion.button>
-                ))}
-            </motion.div>
-            
-            <motion.div 
-                layout
-                className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
-            >
-                <AnimatePresence>
-                    {filteredProjects.map((project) => (
-                        <ProjectCard key={project.title} project={project} />
-                    ))}
-                </AnimatePresence>
-            </motion.div>
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        {/* Header */}
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-10">
+          <p className="section-label mb-3">// PROYECTOS</p>
+          <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white mb-3">
+            MI TRABAJO<span className="neon-text">.</span>
+          </h2>
+          <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
+          <p className="mt-4 text-base max-w-xl" style={{ color: 'rgba(255,255,255,0.5)', fontFamily: "'Space Grotesk', sans-serif" }}>
+            Aplicaciones reales construidas para clientes reales.
+          </p>
         </motion.div>
-        </section>
-    );
+
+        {/* Filter — scroll horizontal en mobile */}
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {categories.map(cat => (
+            <button key={cat} onClick={() => setFilter(cat)}
+              className="text-xs font-medium px-4 py-2 rounded-lg flex-shrink-0 transition-all duration-200"
+              style={{
+                border: `1px solid ${filter === cat ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.12)'}`,
+                color: filter === cat ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.5)',
+                background: filter === cat ? 'rgba(0,245,255,0.06)' : 'transparent',
+                fontFamily: "'Space Grotesk', sans-serif",
+                whiteSpace: 'nowrap',
+              }}>
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <AnimatePresence>
+            {filtered.map((project, i) => (
+              <ProjectCard key={project.title} project={project} index={i} onOpen={() => setSelectedProject(project)} />
+            ))}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {selectedProject && <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />}
+      </AnimatePresence>
+    </section>
+  );
 };
 
 export default Projects;

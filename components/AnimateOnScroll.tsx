@@ -9,15 +9,10 @@ interface AnimateOnScrollProps {
 
 // Fix for framer-motion variants type error
 const variants: Variants = {
-  hidden: { opacity: 0, y: 15 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      damping: 30,
-      stiffness: 80,
-    },
+    transition: { duration: 0.4, ease: 'easeOut' },
   },
 };
 

@@ -1,14 +1,20 @@
+const currentYear = new Date().getFullYear();
+
 export const experience = [
   {
-    year: '2025 - Presente',
-    title: 'Soporte de TI - Prácticas Pre Profesionales',
-    company: 'Instituto Superior Tecnológico Público Simón Bolívar - Bellavista, Callao',
-    description: 'Prácticas pre profesionales brindando soporte técnico en infraestructura de TI, mantenimiento de equipos, resolución de incidencias y asistencia a usuarios del instituto.'
+    year: `${currentYear} - Presente`,
+    title: 'Soporte de TI - Practicas Pre Profesionales',
+    company: 'Instituto Superior Tecnologico Publico Simon Bolivar',
+    location: 'Bellavista, Callao',
+    description: 'Brindo soporte tecnico en infraestructura de TI, mantenimiento preventivo y correctivo de equipos, resolucion de incidencias de red y asistencia directa a usuarios del instituto. Gestion de redes y administracion de sistemas.',
+    tags: ['Soporte TI', 'Redes', 'Mantenimiento', 'Windows Server'],
   },
   {
-    year: '2025 - Presente',
+    year: '2024 - Presente',
     title: 'Desarrollador Web Freelance',
     company: 'Proyectos Propios y Clientes',
-    description: 'Desarrollo de aplicaciones web completas, desde la conceptualización y diseño UX/UI hasta la implementación y despliegue, utilizando tecnologías como React, Next.js, Node.js, Firebase y diversas bases de datos.'
-  }
+    location: 'Remoto',
+    description: 'Desarrollo de aplicaciones web completas para clientes reales, desde la conceptualizacion y diseno UX/UI hasta la implementacion y despliegue en produccion. Mas de 10 proyectos entregados usando Next.js, Firebase, SQL Server y React.',
+    tags: ['Next.js', 'Firebase', 'SQL Server', 'React', 'TypeScript', 'Tailwind CSS'],
+  },
 ];
