@@ -10,8 +10,9 @@ const Experience: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Header con animación slideLeft — variedad */}
         <motion.div
-          initial="hidden" whileInView="visible"
-          variants={ANIMATION_VARIANTS.slideLeft}
+          initial={{ opacity: 0, x: -24 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
           viewport={{ once: true }}
           className="mb-14"
         >
