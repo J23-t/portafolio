@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { experience } from '../data/experience';
-import { ANIMATION_VARIANTS } from '../hooks/useScrollAnimation';
 
 const Experience: React.FC = () => {
   return (

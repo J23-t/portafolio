@@ -118,7 +118,7 @@ export const projects = [
   {
     title: 'PDH-Tau',
     description: 'Plataforma web de gestión interna para organización educativa. Administración de datos, usuarios y visualización de información institucional.',
-    image: '/foto/cdm amoblarq.png',
+    image: '/foto/catalogoiq.png',
     liveUrl: 'https://pdh-tau.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
     tags: ['Next.js', 'Firebase', 'Dashboard', 'Institucional'],

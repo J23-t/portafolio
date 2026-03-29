@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ANIMATION_VARIANTS } from '../hooks/useScrollAnimation';
 
 const services = [
   {
