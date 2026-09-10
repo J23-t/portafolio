@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { testimonials } from '../data/testimonials';
 
 const getInitials = (name: string) =>
@@ -7,15 +7,18 @@ const getInitials = (name: string) =>
 
 const Testimonials: React.FC = () => {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   const prev = () => setActive(a => (a - 1 + testimonials.length) % testimonials.length);
   const next = () => setActive(a => (a + 1) % testimonials.length);
 
-  // Auto-avance en mobile
+  // Auto-avance en mobile — pausa si el usuario reduce movimiento o interactúa
   React.useEffect(() => {
+    if (reduceMotion || paused) return;
     const t = setInterval(() => setActive(a => (a + 1) % testimonials.length), 5000);
     return () => clearInterval(t);
-  }, []);
+  }, [reduceMotion, paused]);
 
   return (
     <section id="testimonials" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-surface)' }}>
@@ -28,6 +31,9 @@ const Testimonials: React.FC = () => {
             LO QUE DICEN<span className="neon-text">.</span>
           </h2>
           <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
+          <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
+            La opinión de las personas para las que he trabajado.
+          </p>
         </motion.div>
 
         {/* Mobile: carrusel. Desktop: grid */}
@@ -41,11 +47,11 @@ const Testimonials: React.FC = () => {
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 viewport={{ once: true }}
                 className="glass-card rounded-xl p-7 flex flex-col relative overflow-hidden"
-                style={{ borderTop: '2px solid rgba(0,245,255,0.15)' }}
+                style={{ borderTop: '2px solid rgba(56,189,248,0.15)' }}
               >
                 {/* Quote mark decorativo */}
                 <div className="absolute top-4 right-5 font-orbitron font-black text-6xl leading-none select-none pointer-events-none"
-                  style={{ color: 'rgba(0,245,255,0.05)' }}>"</div>
+                  style={{ color: 'rgba(56,189,248,0.05)' }}>"</div>
 
                 {/* Stars */}
                 <div className="flex gap-1 mb-5">
@@ -55,7 +61,7 @@ const Testimonials: React.FC = () => {
                 </div>
 
                 <p className="text-sm leading-relaxed flex-grow mb-6"
-                  style={{ color: 'rgba(255,255,255,0.65)', fontStyle: 'italic', fontFamily: "'Space Grotesk', sans-serif" }}>
+                  style={{ color: 'var(--text-strong)', fontStyle: 'italic', fontFamily: "'Inter', sans-serif" }}>
                   "{t.quote}"
                 </p>
 
@@ -67,16 +73,21 @@ const Testimonials: React.FC = () => {
                     </span>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{t.name}</p>
-                    <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Space Grotesk', sans-serif" }}>{t.title}</p>
+                    <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name}</p>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>{t.title}</p>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Mobile carrusel */}
-          <div className="md:hidden">
+          {/* Mobile carrusel — pausa el auto-avance al interactuar */}
+          <div className="md:hidden"
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            onTouchStart={() => setPaused(true)}
+            onFocus={() => setPaused(true)}
+            onBlur={() => setPaused(false)}>
             <div className="relative overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -86,7 +97,7 @@ const Testimonials: React.FC = () => {
                   exit={{ opacity: 0, x: -40 }}
                   transition={{ duration: 0.25 }}
                   className="glass-card rounded-xl p-6"
-                  style={{ borderTop: '2px solid rgba(0,245,255,0.15)' }}
+                  style={{ borderTop: '2px solid rgba(56,189,248,0.15)' }}
                 >
                   <div className="flex gap-1 mb-4">
                     {[...Array(5)].map((_, s) => (
@@ -94,7 +105,7 @@ const Testimonials: React.FC = () => {
                     ))}
                   </div>
                   <p className="text-sm leading-relaxed mb-6"
-                    style={{ color: 'rgba(255,255,255,0.65)', fontStyle: 'italic', fontFamily: "'Space Grotesk', sans-serif" }}>
+                    style={{ color: 'var(--text-strong)', fontStyle: 'italic', fontFamily: "'Inter', sans-serif" }}>
                     "{testimonials[active].quote}"
                   </p>
                   <div className="flex items-center gap-3 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
@@ -105,8 +116,8 @@ const Testimonials: React.FC = () => {
                       </span>
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{testimonials[active].name}</p>
-                      <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Space Grotesk', sans-serif" }}>{testimonials[active].title}</p>
+                      <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>{testimonials[active].name}</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>{testimonials[active].title}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -117,7 +128,7 @@ const Testimonials: React.FC = () => {
             <div className="flex items-center justify-between mt-5">
               <button onClick={prev}
                 className="w-10 h-10 flex items-center justify-center rounded-lg glass-card"
-                style={{ border: '1px solid rgba(0,245,255,0.2)' }}
+                style={{ border: '1px solid rgba(56,189,248,0.2)' }}
                 aria-label="Testimonio anterior">
                 <ion-icon name="chevron-back-outline" style={{ color: 'var(--neon-cyan)', fontSize: '18px' } as React.CSSProperties} />
               </button>
@@ -130,7 +141,7 @@ const Testimonials: React.FC = () => {
                     style={{
                       width: i === active ? '20px' : '8px',
                       height: '8px',
-                      background: i === active ? 'var(--neon-cyan)' : 'rgba(255,255,255,0.2)',
+                      background: i === active ? 'var(--neon-cyan)' : 'var(--text-faint)',
                     }}
                     aria-label={`Ir al testimonio ${i + 1}`}
                   />
@@ -139,7 +150,7 @@ const Testimonials: React.FC = () => {
 
               <button onClick={next}
                 className="w-10 h-10 flex items-center justify-center rounded-lg glass-card"
-                style={{ border: '1px solid rgba(0,245,255,0.2)' }}
+                style={{ border: '1px solid rgba(56,189,248,0.2)' }}
                 aria-label="Siguiente testimonio">
                 <ion-icon name="chevron-forward-outline" style={{ color: 'var(--neon-cyan)', fontSize: '18px' } as React.CSSProperties} />
               </button>

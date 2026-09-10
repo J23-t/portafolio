@@ -1,0 +1,19 @@
+{
+  "name": "Jordan Talledo - Desarrollador Full Stack",
+  "short_name": "Jordan Talledo",
+  "description": "Portafolio profesional de Jordan Talledo, Desarrollador Full Stack con Next.js, Firebase y SQL Server.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#05080f",
+  "theme_color": "#05080f",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 const mainSkills = [
-  { name: 'Next.js', icon: 'layers-outline', level: 'Experto', projects: 10, color: 'var(--neon-cyan)', pct: 95, desc: 'Framework principal para todos mis proyectos' },
   { name: 'React', icon: 'logo-react', level: 'Experto', projects: 10, color: 'var(--neon-cyan)', pct: 95, desc: 'Base de todos mis frontends' },
+  { name: 'Next.js', icon: 'layers-outline', level: 'Experto', projects: 10, color: 'var(--neon-cyan)', pct: 95, desc: 'Framework principal para sistemas y e-commerce' },
+  { name: 'Node.js', icon: 'logo-nodejs', level: 'Avanzado', projects: 6, color: 'var(--neon-violet)', pct: 82, desc: 'APIs, lógica de servidor y middleware' },
+  { name: 'MongoDB', icon: 'leaf-outline', level: 'Avanzado', projects: 5, color: 'var(--neon-violet)', pct: 80, desc: 'Bases de datos NoSQL para sistemas a medida' },
   { name: 'Firebase', icon: 'logo-firebase', level: 'Experto', projects: 8, color: 'var(--neon-cyan)', pct: 90, desc: 'Auth, Firestore, Storage, Functions' },
-  { name: 'Tailwind CSS', icon: 'terminal-outline', level: 'Experto', projects: 10, color: 'var(--neon-cyan)', pct: 92, desc: 'Estilos rápidos y consistentes' },
-  { name: 'TypeScript', icon: 'code-slash-outline', level: 'Avanzado', projects: 7, color: 'var(--neon-violet)', pct: 80, desc: 'Tipado estático en todos los proyectos' },
-  { name: 'Node.js', icon: 'logo-nodejs', level: 'Avanzado', projects: 5, color: 'var(--neon-violet)', pct: 75, desc: 'APIs y lógica de servidor' },
-  { name: 'SQL Server', icon: 'server-outline', level: 'Avanzado', projects: 4, color: 'var(--neon-violet)', pct: 72, desc: 'Bases de datos relacionales' },
-  { name: 'Git & GitHub', icon: 'logo-github', level: 'Avanzado', projects: 10, color: 'var(--neon-violet)', pct: 85, desc: 'Control de versiones en todos los proyectos' },
+  { name: 'SQL Server', icon: 'server-outline', level: 'Avanzado', projects: 4, color: 'var(--neon-violet)', pct: 72, desc: 'Bases de datos relacionales empresariales' },
+  { name: 'Tailwind CSS', icon: 'terminal-outline', level: 'Experto', projects: 10, color: 'var(--neon-cyan)', pct: 90, desc: 'Estilos rápidos, responsivos y consistentes' },
+  { name: 'Git & GitHub', icon: 'logo-github', level: 'Avanzado', projects: 10, color: 'var(--neon-violet)', pct: 88, desc: 'Control de versiones en todos los proyectos' },
 ];
 
 const levelColors: Record<string, string> = {
@@ -35,7 +35,7 @@ const Skills: React.FC = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="skills" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-surface)' }}>
+    <section id="skills" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-bg)' }}>
       <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
@@ -43,8 +43,8 @@ const Skills: React.FC = () => {
           <p className="section-label mb-3">// TECNOLOGÍAS</p>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">TECH STACK<span className="neon-text">.</span></h2>
           <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
-          <p className="mt-4 text-base max-w-xl" style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Space Grotesk', sans-serif" }}>
-            Las 8 tecnologías que uso en proyectos reales — no una lista de todo lo que he tocado.
+          <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
+            Las tecnologías que uso para construir sistemas empresariales y aplicaciones web reales.
           </p>
         </motion.div>
 
@@ -64,13 +64,13 @@ const Skills: React.FC = () => {
                   <ion-icon name={skill.icon} />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-white truncate" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>{skill.name}</p>
-                  <p className="text-xs" style={{ color: levelColors[skill.level], fontFamily: "'Space Grotesk', sans-serif" }}>{skill.level}</p>
+                  <p className="text-sm font-semibold text-white truncate" style={{ fontFamily: "'Inter', sans-serif" }}>{skill.name}</p>
+                  <p className="text-xs" style={{ color: levelColors[skill.level], fontFamily: "'Inter', sans-serif" }}>{skill.level}</p>
                 </div>
               </div>
 
               {/* Descripción */}
-              <p className="text-xs leading-relaxed mb-3" style={{ color: 'rgba(255,255,255,0.45)', fontFamily: "'Space Grotesk', sans-serif" }}>
+              <p className="text-xs leading-relaxed mb-3" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>
                 {skill.desc}
               </p>
 
@@ -82,8 +82,8 @@ const Skills: React.FC = () => {
               {/* Proyectos */}
               <div className="flex items-center justify-between pt-2" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                 <div className="flex items-center gap-1.5">
-                  <ion-icon name="cube-outline" style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' } as React.CSSProperties} />
-                  <span className="text-xs" style={{ color: 'rgba(255,255,255,0.35)', fontFamily: "'Space Grotesk', sans-serif" }}>
+                  <ion-icon name="cube-outline" style={{ fontSize: '11px', color: 'var(--text-faint)' } as React.CSSProperties} />
+                  <span className="text-xs" style={{ color: 'var(--text-faint)', fontFamily: "'Inter', sans-serif" }}>
                     {skill.projects} proyecto{skill.projects !== 1 ? 's' : ''}
                   </span>
                 </div>

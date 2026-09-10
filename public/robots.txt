@@ -6,6 +6,3 @@ Disallow: /dist/
 
 # Sitemaps
 Sitemap: https://jordantalledo.com/sitemap.xml
-
-# Crawl-delay for bots
-Crawl-delay: 10

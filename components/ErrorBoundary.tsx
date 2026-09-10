@@ -19,7 +19,7 @@ export class ErrorBoundary extends React.Component<React.PropsWithChildren, Stat
         <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--dark-bg)' }}>
           <div className="glass-card rounded-xl p-8 text-center max-w-md mx-4">
             <p className="font-orbitron text-2xl neon-text mb-3">ERROR</p>
-            <p className="font-mono-jb text-sm mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            <p className="font-mono-jb text-sm mb-6" style={{ color: 'var(--text-muted)' }}>
               Algo salió mal. Por favor recarga la página.
             </p>
             <button

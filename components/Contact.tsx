@@ -48,16 +48,16 @@ const Contact: React.FC = () => {
       });
       if (res.ok) {
         toast.success('¡Mensaje enviado! Te contactaré pronto.', {
-          style: { background: 'var(--dark-card)', border: '1px solid rgba(0,245,255,0.3)', color: '#fff' }
+          style: { background: 'var(--dark-card)', border: '1px solid rgba(56,189,248,0.3)', color: 'var(--text-bright)' }
         });
         setFormData({ name: '', email: '', message: '' });
       } else {
         toast.error('Error al enviar. Intenta de nuevo.', {
-          style: { background: 'var(--dark-card)', border: '1px solid rgba(255,50,50,0.3)', color: '#fff' }
+          style: { background: 'var(--dark-card)', border: '1px solid rgba(255,50,50,0.3)', color: 'var(--text-bright)' }
         });
       }
     } catch {
-      toast.error('Error de conexión.', { style: { background: 'var(--dark-card)', border: '1px solid rgba(255,50,50,0.3)', color: '#fff' } });
+      toast.error('Error de conexión.', { style: { background: 'var(--dark-card)', border: '1px solid rgba(255,50,50,0.3)', color: 'var(--text-bright)' } });
     } finally {
       setIsSubmitting(false);
     }
@@ -66,7 +66,7 @@ const Contact: React.FC = () => {
   const contactItems = [
     { icon: 'mail-outline', label: 'Email', value: SITE.email, href: `mailto:${SITE.email}`, color: 'var(--neon-cyan)' },
     { icon: 'logo-whatsapp', label: 'WhatsApp / Llamadas', value: SITE.phone, href: SITE.whatsapp, color: 'var(--neon-green)' },
-    { icon: 'logo-github', label: 'GitHub', value: 'github.com/J23-t', href: SITE.github, color: 'rgba(255,255,255,0.7)' },
+    { icon: 'logo-github', label: 'GitHub', value: 'github.com/J23-t', href: SITE.github, color: 'var(--text-strong)' },
   ];
 
   const labelStyle: React.CSSProperties = {
@@ -74,25 +74,25 @@ const Contact: React.FC = () => {
     marginBottom: '8px',
     fontSize: '0.8rem',
     fontWeight: 500,
-    color: 'rgba(255,255,255,0.7)',
-    fontFamily: "'Space Grotesk', sans-serif",
+    color: 'var(--text-strong)',
+    fontFamily: "'Inter', sans-serif",
   };
 
   const inputStyle: React.CSSProperties = {
-    background: 'rgba(6,13,20,0.8)',
-    border: '1px solid rgba(0,245,255,0.15)',
-    color: '#fff',
-    fontFamily: "'Space Grotesk', sans-serif",
+    background: 'var(--dark-surface)',
+    border: '1px solid rgba(148,163,184,0.2)',
+    color: 'var(--text-bright)',
+    fontFamily: "'Inter', sans-serif",
     fontSize: '0.9rem',
     outline: 'none',
     transition: 'border-color 0.25s, box-shadow 0.25s',
     width: '100%',
-    padding: '12px 16px',
-    borderRadius: '8px',
+    padding: '13px 16px',
+    borderRadius: '10px',
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-surface)' }}>
+    <section id="contact" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-bg)' }}>
       <Toaster position="top-right" />
       <div className="absolute inset-0 cyber-grid opacity-30" />
 
@@ -101,8 +101,8 @@ const Contact: React.FC = () => {
           <p className="section-label mb-3">// CONTACTO</p>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">HABLEMOS<span className="neon-text">.</span></h2>
           <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
-          <p className="mt-4 text-base" style={{ color: 'rgba(255,255,255,0.55)' }}>
-            ¿Tienes un proyecto en mente? Escríbeme y hablamos.
+          <p className="mt-4 text-base" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
+            Cuéntame tu idea y recibe una propuesta clara con alcance, plazos y precio. Sin compromiso.
           </p>
         </motion.div>
 
@@ -124,22 +124,22 @@ const Contact: React.FC = () => {
                   <ion-icon name={icon} />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-medium mb-0.5" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Space Grotesk', sans-serif", textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</p>
-                  <p className="font-mono-jb text-sm truncate group-hover:neon-text transition-colors" style={{ color: 'rgba(255,255,255,0.8)' }}>{value}</p>
+                  <p className="text-xs font-medium mb-0.5" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif", textTransform: 'uppercase', letterSpacing: '0.08em' }}>{label}</p>
+                  <p className="font-mono-jb text-sm truncate group-hover:neon-text transition-colors" style={{ color: 'var(--text-primary)' }}>{value}</p>
                 </div>
-                <ion-icon name="chevron-forward-outline" style={{ marginLeft: 'auto', color: 'rgba(255,255,255,0.2)', flexShrink: 0 } as React.CSSProperties} />
+                <ion-icon name="chevron-forward-outline" style={{ marginLeft: 'auto', color: 'var(--text-faint)', flexShrink: 0 } as React.CSSProperties} />
               </motion.a>
             ))}
 
             {/* Tiempo de respuesta */}
             <div className="glass-card rounded-xl p-5 flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl"
-                style={{ border: '1px solid rgba(0,245,255,0.2)', background: 'rgba(0,245,255,0.06)', color: 'var(--neon-cyan)' }}>
+                style={{ border: '1px solid rgba(56,189,248,0.2)', background: 'rgba(56,189,248,0.06)', color: 'var(--neon-cyan)' }}>
                 <ion-icon name="time-outline" />
               </div>
               <div>
-                <p className="text-xs font-medium mb-0.5" style={{ color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: "'Space Grotesk', sans-serif" }}>Tiempo de respuesta</p>
-                <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.8)' }}>Menos de 24 horas</p>
+                <p className="text-xs font-medium mb-0.5" style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: "'Inter', sans-serif" }}>Tiempo de respuesta</p>
+                <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Menos de 24 horas</p>
               </div>
             </div>
           </motion.div>
@@ -155,7 +155,7 @@ const Contact: React.FC = () => {
                   onBlur={handleBlur}
                   placeholder="Tu nombre"
                   style={{ ...inputStyle, borderColor: errors.name ? 'rgba(255,80,80,0.5)' : undefined }}
-                  onFocus={e => { e.target.style.borderColor = 'rgba(0,245,255,0.5)'; e.target.style.boxShadow = '0 0 0 3px rgba(0,245,255,0.06)'; }}
+                  onFocus={e => { e.target.style.borderColor = 'rgba(56,189,248,0.55)'; e.target.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.08)'; }}
                   aria-invalid={!!errors.name}
                   aria-describedby={errors.name ? 'name-error' : undefined}
                 />
@@ -170,7 +170,7 @@ const Contact: React.FC = () => {
                   onBlur={handleBlur}
                   placeholder="tu@email.com"
                   style={{ ...inputStyle, borderColor: errors.email ? 'rgba(255,80,80,0.5)' : undefined }}
-                  onFocus={e => { e.target.style.borderColor = 'rgba(0,245,255,0.5)'; e.target.style.boxShadow = '0 0 0 3px rgba(0,245,255,0.06)'; }}
+                  onFocus={e => { e.target.style.borderColor = 'rgba(56,189,248,0.55)'; e.target.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.08)'; }}
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? 'email-error' : undefined}
                 />
@@ -180,16 +180,19 @@ const Contact: React.FC = () => {
               <div>
                 <label htmlFor="message" style={labelStyle}>Mensaje</label>
                 <textarea
-                  id="message" name="message" rows={5}
+                  id="message" name="message" rows={5} maxLength={500}
                   value={formData.message} onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Cuéntame sobre tu proyecto, presupuesto y plazos..."
                   style={{ ...inputStyle, resize: 'none', borderColor: errors.message ? 'rgba(255,80,80,0.5)' : undefined }}
-                  onFocus={e => { e.target.style.borderColor = 'rgba(0,245,255,0.5)'; e.target.style.boxShadow = '0 0 0 3px rgba(0,245,255,0.06)'; }}
+                  onFocus={e => { e.target.style.borderColor = 'rgba(56,189,248,0.55)'; e.target.style.boxShadow = '0 0 0 3px rgba(56,189,248,0.08)'; }}
                   aria-invalid={!!errors.message}
                   aria-describedby={errors.message ? 'message-error' : undefined}
                 />
                 {errors.message && <p id="message-error" className="mt-2 text-sm" style={{ color: 'rgba(255,100,100,0.9)' }}>{errors.message}</p>}
+                <div className="flex justify-end mt-1 font-mono-jb text-xs" style={{ color: 'var(--text-faint)' }}>
+                  {formData.message.length}/500
+                </div>
               </div>
 
               <motion.button

@@ -7,17 +7,15 @@ const WhatsAppFloat: React.FC = () => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
-    // Aparece después de 3 segundos
     const t = setTimeout(() => setVisible(true), 3000);
     return () => clearTimeout(t);
   }, []);
 
-  // Muestra tooltip automáticamente la primera vez
   useEffect(() => {
     if (!visible) return;
     const t = setTimeout(() => {
       setShowTooltip(true);
-      setTimeout(() => setShowTooltip(false), 4000);
+      setTimeout(() => setShowTooltip(false), 4500);
     }, 800);
     return () => clearTimeout(t);
   }, [visible]);
@@ -32,7 +30,6 @@ const WhatsAppFloat: React.FC = () => {
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
           className="fixed bottom-6 right-6 z-[100] flex items-center gap-3"
         >
-          {/* Tooltip */}
           <AnimatePresence>
             {showTooltip && (
               <motion.div
@@ -40,21 +37,19 @@ const WhatsAppFloat: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 10 }}
                 className="glass-card rounded-xl px-4 py-2.5 whitespace-nowrap"
-                style={{ border: '1px solid rgba(0,255,136,0.25)' }}
+                style={{ border: '1px solid rgba(52,211,153,0.3)' }}
               >
-                <p className="text-sm font-medium" style={{ color: 'rgba(255,255,255,0.85)', fontFamily: "'Space Grotesk', sans-serif" }}>
+                <p className="text-sm font-medium" style={{ color: 'var(--text-bright)', fontFamily: "'Inter', sans-serif" }}>
                   ¿Hablamos de tu proyecto?
                 </p>
-                <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Space Grotesk', sans-serif" }}>
+                <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>
                   Respondo en menos de 24h
                 </p>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Botón WhatsApp */}
           <div className="relative">
-            {/* Pulse ring */}
             <span className="absolute inset-0 rounded-full wa-ping"
               style={{ background: 'rgba(37,211,102,0.25)' }} />
             <motion.a

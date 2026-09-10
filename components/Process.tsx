@@ -39,7 +39,7 @@ const steps = [
 ];
 
 const Process: React.FC = () => (
-  <section id="process" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-surface)' }}>
+  <section id="process" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-bg)' }}>
     <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
 
     <div className="container mx-auto px-4 sm:px-6 relative z-10">
@@ -49,7 +49,7 @@ const Process: React.FC = () => (
           CÓMO TRABAJO<span className="neon-text">.</span>
         </h2>
         <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
-        <p className="mt-4 text-base max-w-xl" style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Space Grotesk', sans-serif" }}>
+        <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
           Un proceso claro y transparente para que sepas exactamente qué esperar.
         </p>
       </motion.div>
@@ -91,7 +91,7 @@ const Process: React.FC = () => (
               </div>
 
               <h3 className={`font-orbitron font-bold text-white mb-3 ${step.featured ? 'text-base' : 'text-sm'}`}>{step.title}</h3>
-              <p className="text-sm leading-relaxed flex-grow" style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Space Grotesk', sans-serif" }}>
+              <p className="text-sm leading-relaxed flex-grow" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
                 {step.desc}
               </p>
 
@@ -100,7 +100,7 @@ const Process: React.FC = () => (
                   target={step.cta.external ? '_blank' : undefined}
                   rel={step.cta.external ? 'noopener noreferrer' : undefined}
                   className="mt-5 flex items-center gap-2 text-sm font-medium transition-colors"
-                  style={{ color: step.color, fontFamily: "'Space Grotesk', sans-serif" }}>
+                  style={{ color: step.color, fontFamily: "'Inter', sans-serif" }}>
                   {step.cta.label}
                   <ion-icon name="arrow-forward-outline" style={{ fontSize: '14px' } as React.CSSProperties} />
                 </a>
@@ -146,7 +146,7 @@ const Process: React.FC = () => (
                 </div>
               </div>
 
-              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)', fontFamily: "'Space Grotesk', sans-serif" }}>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
                 {step.desc}
               </p>
 
@@ -155,7 +155,7 @@ const Process: React.FC = () => (
                   target={step.cta.external ? '_blank' : undefined}
                   rel={step.cta.external ? 'noopener noreferrer' : undefined}
                   className="mt-4 flex items-center gap-2 text-sm font-medium"
-                  style={{ color: step.color, fontFamily: "'Space Grotesk', sans-serif" }}>
+                  style={{ color: step.color, fontFamily: "'Inter', sans-serif" }}>
                   {step.cta.label}
                   <ion-icon name="arrow-forward-outline" style={{ fontSize: '14px' } as React.CSSProperties} />
                 </a>

@@ -1,146 +1,210 @@
-export const projects = [
+export interface Project {
+  title: string;
+  description: string;
+  image: string;
+  liveUrl: string;
+  sourceUrl: string;
+  tags: string[];
+  category: string;
+  impact: string;
+  purpose: string;
+  mainTech: string;
+  problem: string;
+  solution: string;
+  challenges: string;
+}
+
+export const projects: Project[] = [
   {
     title: 'AmoblarQ',
-    description: 'Marketplace de mobiliario y decoración que conecta clientes con diseñadores. Catálogo filtrable, perfiles de diseñadores y gestión de proyectos de interiorismo.',
+    description:
+      'Sistema integral de gestión empresarial con arquitectura modular: clientes, inventario, ventas con contratos, citas, proformas en PDF, visitadores, herramientas y requerimientos.',
     image: '/foto/amoblarq.png',
     liveUrl: 'https://amoblarq.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase', 'E-commerce', 'Tailwind CSS'],
-    category: 'E-commerce',
-    impact: 'Activo · +30 productos listados',
-    purpose: 'Crear un marketplace de mobiliario para facilitar la conexión entre proveedores y clientes.',
-    mainTech: 'Next.js + Firebase',
-    problem: 'Los clientes no encontraban muebles de diseño y servicios de interiorismo en un solo lugar.',
-    solution: 'Plataforma con catálogo filtrable, perfiles para diseñadores y gestión de proyectos integrada.',
-    challenges: 'Optimizar la carga de imágenes de alta calidad y crear una UX intuitiva para personalización de ambientes.'
+    tags: ['Next.js 15', 'TypeScript', 'MongoDB', 'NextAuth'],
+    category: 'Sistema Empresarial',
+    impact: '9 módulos de gestión integrados',
+    purpose: 'Centralizar la operación completa de Amoblarq en un solo sistema modular y escalable.',
+    mainTech: 'Next.js 15 + MongoDB',
+    problem: 'La operación dependía de procesos dispersos: clientes, stock, ventas y citas sin un sistema unificado.',
+    solution:
+      'Sistema modular con Next.js 15, TypeScript, MongoDB y NextAuth: clientes, inventario, ventas con contratos y reportes, citas, proformas en PDF, visitadores, herramientas y requerimientos.',
+    challenges:
+      'Diseñar una arquitectura modular extensible e integrar alertas de stock, estadísticas de compra y reportes de vendedores.',
   },
   {
     title: 'Ferrefast',
-    description: 'E-commerce completo para ferretería con catálogo de productos, filtros por categoría, carrito de compras y gestión de inventario en tiempo real.',
+    description:
+      'E-commerce de ferretería digital con pasarela de pagos, catálogos, personalización de atención al cliente y consulta en tiempo real para el cliente.',
     image: '/foto/ferrefast.png',
     liveUrl: 'https://ferrefastoficial.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase', 'E-commerce', 'Firestore'],
+    tags: ['Next.js 15', 'NestJS', 'MongoDB', 'Pagos'],
     category: 'E-commerce',
-    impact: 'Activo · Ferretería digitalizada al 100%',
-    purpose: 'Digitalizar una ferretería tradicional con plataforma de venta online eficiente.',
-    mainTech: 'Next.js + Firebase',
-    problem: 'Ferretería sin presencia online, limitada a ventas presenciales y clientes locales.',
-    solution: 'Tienda online con catálogo filtrable, carrito de compras y gestión de inventario en Firestore.',
-    challenges: 'Estructurar un catálogo extenso y optimizar SEO para competir en el mercado digital.'
+    impact: 'Ferretería digital con pagos y catálogo',
+    purpose: 'Digitalizar una ferretería con tienda online completa, pagos integrados y atención personalizada.',
+    mainTech: 'Next.js + NestJS + MongoDB',
+    problem: 'La ferretería no vendía online: sus clientes no podían consultar catálogo, stock ni pagar desde fuera del local.',
+    solution:
+      'Tienda online con pasarela de pagos, catálogos de productos, consulta en tiempo real para el cliente y personalización de la atención, con backend NestJS y MongoDB Atlas.',
+    challenges:
+      'Integrar la pasarela de pagos y mantener el stock sincronizado en tiempo real durante la consulta del cliente.',
+  },
+  {
+    title: 'SisRestaurante',
+    description:
+      'Sistema de restaurante con login por roles (mozo, administrador, cajero, cocinero), carta digital para clientes y dashboard con tiempos de pedido en tiempo real.',
+    image: '/foto/sisresturant.png',
+    liveUrl: 'https://sisresturant.vercel.app/',
+    sourceUrl: 'https://github.com/J23-t',
+    tags: ['TypeScript', 'Next.js', 'MongoDB', 'Realtime'],
+    category: 'Restaurante',
+    impact: '4 roles + carta para clientes',
+    purpose: 'Digitalizar el restaurante: pedidos con roles de equipo y tiempos medidos en tiempo real.',
+    mainTech: 'Next.js + MongoDB',
+    problem: 'Pedidos en papel hacia la cocina, sin control de roles ni visibilidad del tiempo real.',
+    solution:
+      'Aplicación con autenticación por roles (mozo, cajero, cocinero, admin), carta digital para clientes y dashboard de administración con tiempos de pedido en tiempo real.',
+    challenges: 'Sincronizar los estados del pedido entre cocina, caja y salón con tiempos en vivo.',
+  },
+  {
+    title: 'J.A.R.V.I.S. AI',
+    description:
+      'Asistente personal de voz con IA para Windows: te escucha y responde por voz, ve tu pantalla o cámara, controla la PC y resuelve tareas complejas con memoria persistente local.',
+    image: '/foto/jarvis.png',
+    liveUrl: '',
+    sourceUrl: 'https://github.com/J23-t',
+    tags: ['Python', 'IA', 'Voz', 'Automatización'],
+    category: 'IA',
+    impact: 'Asistente con voz, visión y memoria local',
+    purpose: 'Asistente de IA que opera sobre Windows: voz, visión y control del sistema sin salir de tu PC.',
+    mainTech: 'Python + LLMs',
+    problem: 'Las herramientas asistente no integran voz, visión y automatización de sistema en un solo lugar.',
+    solution:
+      'Asistente con respuesta por voz en tiempo real en varios idiomas, visión (pantalla/cámara), control de apps y archivos, alarmas, web y automatizaciones, con memoria persistente local.',
+    challenges:
+      'Procesar voz, visión y archivos (PDF, imágenes, audio, video) manteniendo las claves de API seguras y fuera del repositorio.',
+  },
+  {
+    title: 'PDM',
+    description:
+      'Sistema de captura de datos de mueblería con jerarquías para mayor detalle de producto, carga de imágenes y control de precios.',
+    image: '/foto/pdm.png',
+    liveUrl: 'https://pdh-tau.vercel.app/',
+    sourceUrl: 'https://github.com/J23-t',
+    tags: ['Next.js 15', 'NestJS', 'MongoDB', 'JWT'],
+    category: 'Gestión',
+    impact: 'Catálogo jerárquico con precios e imágenes',
+    purpose: 'Recolectar y organizar los datos de muebles por jerarquías con imágenes y precios.',
+    mainTech: 'Next.js + NestJS + MongoDB',
+    problem: 'Los datos de producto y precios estaban desordenados, sin estructura jerárquica ni imágenes.',
+    solution:
+      'Sistema con jerarquías de producto, carga de imágenes y control de precios, con backend NestJS y MongoDB Atlas protegido por JWT.',
+    challenges:
+      'Modelar la jerarquía de productos y coordinar el despliegue entre frontend (Vercel) y backend (Railway).',
+  },
+  {
+    title: 'AsisTrack',
+    description:
+      'Sistema de gestión de personal y control de asistencia con paneles de administrador y trabajador: asistencia en vivo, nómina PDF/Excel, turnos, adelantos y permisos.',
+    image: '/foto/asistrack.png',
+    liveUrl: 'https://asistrack.vercel.app/',
+    sourceUrl: 'https://github.com/J23-t',
+    tags: ['React', 'Node.js', 'MongoDB', 'JWT'],
+    category: 'RRHH',
+    impact: 'Asistencia en vivo + nómina automatizada',
+    purpose: 'Digitalizar la gestión de personal: asistencia, nómina, turnos y solicitudes en una sola plataforma.',
+    mainTech: 'React + Node.js + MongoDB',
+    problem: 'El control de asistencia era manual y las nóminas se calculaban a mano, con errores y pérdida de tiempo.',
+    solution:
+      'Sistema con rol administrador (dashboard en vivo, empleados, nómina PDF/Excel, turnos, evaluaciones) y rol trabajador (registro de entrada/descanso/salida, adelantos, permisos y vacaciones).',
+    challenges:
+      'Cálculo de nómina con exportación, reportes individuales y grupales, e integración contable.',
   },
   {
     title: 'DraxBarber',
-    description: 'Web profesional para barbería con galería de estilos, lista de precios y sistema de reservas de citas online integrado.',
+    description:
+      'Sitio web de barbería con panel de administración, dashboard de clientes, reservas con MongoDB y autenticación JWT.',
     image: '/foto/draxbarber.png',
     liveUrl: 'https://draxbarber.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase', 'Reservas', 'Responsive'],
+    tags: ['Next.js 15', 'NestJS', 'MongoDB', 'Tailwind'],
     category: 'Servicios',
-    impact: 'Activo · Reservas online funcionando',
-    purpose: 'Modernizar la gestión de una barbería y crear presencia online profesional.',
-    mainTech: 'Next.js + Firebase',
-    problem: 'Gestión de citas manual y sin presencia digital profesional.',
-    solution: 'Web con galería, precios y sistema de reservas sincronizado con el calendario del negocio.',
-    challenges: 'Diseño mobile-first atractivo, ya que los clientes reservan principalmente desde el teléfono.'
+    impact: 'Reservas online con panel de administración',
+    purpose: 'Presencia digital y gestión de citas para la barbería.',
+    mainTech: 'Next.js + NestJS + MongoDB',
+    problem: 'La barbería gestionaba las citas manualmente y no tenía una web con panel de administración.',
+    solution:
+      'Web con catálogo de servicios, reservas en MongoDB y dashboard para administrar clientes y citas, todo protegido con JWT.',
+    challenges: 'Flujo completo de reserva y autenticación segura con rutas públicas y privadas.',
   },
   {
-    title: 'Inventario-Rust',
-    description: 'Sistema de gestión de inventario y stock para PYMEs con autenticación, panel de control, alertas de stock bajo y reportes.',
+    title: 'Inventario Genéricos',
+    description:
+      'Sistema web de inventario con registro de camiones por placa, escaneo de productos, asignación de ubicación de almacenamiento y stock en tiempo real.',
     image: '/foto/inventario.png',
-    liveUrl: 'https://inventario-rust.vercel.app/login',
+    liveUrl: 'https://inventario-rust.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase Auth', 'Firestore', 'Dashboard'],
-    category: 'Gestión',
-    impact: 'Activo · Control de inventario en tiempo real',
-    purpose: 'Herramienta de control de inventario accesible para pequeñas y medianas empresas.',
-    mainTech: 'Next.js + Firebase',
-    problem: 'Las PYMEs gestionan su inventario con métodos manuales, propensos a errores.',
-    solution: 'Panel seguro con registro de productos, movimientos de stock y alertas automáticas de stock bajo.',
-    challenges: 'UX clara para gestión de datos y sistema de roles y permisos de usuario.'
+    tags: ['Next.js 15', 'NestJS', 'MongoDB', 'Scanner'],
+    category: 'Inventario',
+    impact: 'Escaneo de productos y stock en tiempo real',
+    purpose: 'Trazar inventario por camión (placa) con escaneo y ubicación de almacenamiento.',
+    mainTech: 'Next.js + NestJS + MongoDB',
+    problem: 'No había trazabilidad de qué camión trae qué productos ni dónde se almacenan.',
+    solution:
+      'Inventario con registro de camiones por placa, escaneo de productos y dirección de almacenamiento, con stock actualizado en tiempo real.',
+    challenges: 'Escaneo de productos y consistencia de stock ante actualizaciones concurrentes desde varios puntos.',
   },
   {
-    title: 'Tickets NineOmega',
-    description: 'Sistema de ticketing para equipos de soporte técnico. Creación, asignación y seguimiento de incidencias con dashboard en tiempo real.',
-    image: '/foto/ticket.png',
-    liveUrl: 'https://tickets-nine-omega.vercel.app/dashboard/teams',
+    title: 'Toretto Distribuidora',
+    description:
+      'Carta digital de licorería por mayor: catálogo de productos, precios y consulta directa desde el celular.',
+    image: '/foto/toretto.png',
+    liveUrl: 'https://torettobardistribuidora.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase', 'Realtime', 'Dashboard'],
-    category: 'Gestión',
-    purpose: 'Optimizar el flujo de trabajo de equipos de soporte con sistema de ticketing centralizado.',
-    mainTech: 'Next.js + Firebase Realtime',
-    problem: 'Gestión de soporte por email es ineficiente y difícil de rastrear.',
-    solution: 'Plataforma con estados de tickets (abierto/en progreso/resuelto), asignación a equipos y métricas.',
-    challenges: 'Notificaciones en tiempo real con Firebase y flujo de estados de tickets claro y funcional.'
+    tags: ['TypeScript', 'Next.js', 'Carta digital', 'Responsive'],
+    category: 'E-commerce',
+    impact: 'Carta digital para venta mayorista',
+    purpose: 'Carta digital para que los clientes mayoristas consulten catálogo y precios.',
+    mainTech: 'Next.js + TypeScript',
+    problem: 'La distribuidora enviaba listas por imágenes/WhatsApp, sin orden y sin presencia web.',
+    solution:
+      'Carta digital responsive con catálogo, precios y contacto directo para pedidos mayoristas.',
+    challenges: 'Catálogo claro y carga rápida desde el celular de los clientes.',
   },
   {
-    title: 'Gestión de Proyectos Zeta',
-    description: 'Aplicación SaaS de gestión de proyectos con dashboard colaborativo, asignación de tareas, roles de usuario y seguimiento de equipos.',
-    image: '/foto/planvision.png',
-    liveUrl: 'https://gestiondeproyecto-zeta.vercel.app/dashboard',
+    title: '3D View',
+    description:
+      'Configurador de ensamblaje 3D en el navegador: sube modelos GLB/FBX/OBJ, muévelos, rótalos y encájalos con snap automático. Guarda en la nube y compártelo con un link.',
+    image: '/foto/3dview.png',
+    liveUrl: 'https://3dview-omega.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase', 'SaaS', 'Colaboración'],
-    category: 'Gestión',
-    purpose: 'Herramienta colaborativa para que equipos gestionen proyectos y tareas eficientemente.',
-    mainTech: 'Next.js + Firebase',
-    problem: 'Los equipos necesitan una solución centralizada para organizar tareas y monitorizar el progreso.',
-    solution: 'Panel con roles de usuario, creación de proyectos, asignación de tareas y visualización de estado.',
-    challenges: 'Actualizaciones en tiempo real con Firebase y UX intuitiva para gestión compleja.'
+    tags: ['Three.js', 'React Three Fiber', 'Supabase', '3D'],
+    category: '3D',
+    impact: 'Configurador 3D con snap y guardado en la nube',
+    purpose: 'Configurador de ensamblajes 3D en el navegador con guardado, exportación y API.',
+    mainTech: 'Next.js + Three.js + Supabase',
+    problem: 'Armar y compartir ensamblajes 3D requería software pesado o herramientas de escritorio.',
+    solution:
+      'Visor 3D con gizmos, snap automático entre piezas, separación de piezas, guardado en Supabase con link para compartir, BOM exportable en JSON/CSV y API REST.',
+    challenges: 'Rendimiento del visor, snap de piezas y seguridad de los ensamblajes (cubierto con Vitest).',
   },
   {
-    title: 'Joseph Hinostroza Fotógrafo',
-    description: 'Portafolio web profesional para fotógrafo con galería optimizada, sección de servicios y formulario de contacto/reserva.',
+    title: 'Fotógrafo Joseph H.',
+    description:
+      'Portafolio de fotografía para captar clientes: galería de trabajos, servicios y contacto directo para cerrar compras por WhatsApp.',
     image: '/foto/portafoliofotografia.png',
     liveUrl: 'https://fotografojosephhinostroza.vercel.app/',
     sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Galería', 'SEO Local', 'Portafolio'],
+    tags: ['Vue.js', 'TypeScript', 'Galería', 'WhatsApp'],
     category: 'Portafolio',
-    purpose: 'Presencia online impactante para fotógrafo profesional que facilite captar clientes.',
-    mainTech: 'Next.js',
-    problem: 'El fotógrafo necesitaba exhibir su trabajo de forma atractiva y llegar a más clientes.',
-    solution: 'Web visual con galería lazy-loading, servicios y formulario de contacto/reserva.',
-    challenges: 'Optimización de rendimiento de galería de imágenes y SEO local para fotógrafo.'
+    impact: 'Galería + contacto directo por WhatsApp',
+    purpose: 'Exhibir el trabajo del fotógrafo y convertir visitas en pedidos.',
+    mainTech: 'Vue.js + NestJS + MongoDB',
+    problem: 'El fotógrafo necesitaba mostrar su portafolio de forma atractiva y recibir pedidos de clientes.',
+    solution:
+      'Web con galería optimizada y botón de WhatsApp para que el cliente cierre la compra directamente.',
+    challenges: 'Rendimiento de la galería y UX orientada a conversión por WhatsApp.',
   },
-  {
-    title: 'ExtractorDeDatos',
-    description: 'Herramienta SaaS para extracción y transformación automatizada de datos estructurados desde fuentes web y documentos.',
-    image: '/foto/planvision.png',
-    liveUrl: 'https://extractordedatos.vercel.app/',
-    sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase', 'SaaS', 'Automatización'],
-    category: 'Herramienta',
-    purpose: 'Solución SaaS para automatizar extracción y transformación de datos empresariales.',
-    mainTech: 'Next.js + Firebase',
-    problem: 'Las empresas extraen datos manualmente de fuentes web, proceso lento y propenso a errores.',
-    solution: 'Plataforma B2B con dashboard para configurar y ejecutar tareas de extracción programadas.',
-    challenges: 'Robustez del scraper ante cambios en webs origen y almacenamiento seguro por cliente.'
-  },
-  {
-    title: 'PDH-Tau',
-    description: 'Plataforma web de gestión interna para organización educativa. Administración de datos, usuarios y visualización de información institucional.',
-    image: '/foto/catalogoiq.png',
-    liveUrl: 'https://pdh-tau.vercel.app/',
-    sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Firebase', 'Dashboard', 'Institucional'],
-    category: 'Plataforma',
-    purpose: 'Plataforma a medida para gestión de operaciones y datos de una organización educativa.',
-    mainTech: 'Next.js + Firebase',
-    problem: 'La organización necesitaba centralizar la gestión de datos e información institucional.',
-    solution: 'Aplicación web con autenticación, gestión de usuarios y visualización de datos institucionales.',
-    challenges: 'Desarrollar funcionalidades a medida según los requisitos específicos del cliente.'
-  },
-  {
-    title: 'Asistencia Loficial',
-    description: 'Sitio web institucional para servicio de asistencia con información de servicios, credenciales, testimonios y formulario de contacto.',
-    image: '/foto/asistrack.png',
-    liveUrl: 'https://asistencialoficial.netlify.app/',
-    sourceUrl: 'https://github.com/J23-t',
-    tags: ['Next.js', 'Netlify', 'Institucional', 'SEO'],
-    category: 'Servicios',
-    purpose: 'Presencia online profesional para servicio de asistencia que facilite el contacto con usuarios.',
-    mainTech: 'Next.js',
-    problem: 'El servicio carecía de plataforma digital para explicar su oferta y llegar a quienes lo necesitan.',
-    solution: 'Web informativa con servicios, credenciales, testimonios y formulario de contacto optimizado.',
-    challenges: 'Transmitir confianza y profesionalismo a través del diseño y facilitar la navegación.'
-  }
 ];

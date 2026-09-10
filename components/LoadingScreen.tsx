@@ -6,22 +6,16 @@ const LoadingScreen: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    // Máximo 800ms total — velocidad sobre efecto
     const steps = [
       { val: 40, delay: 0 },
       { val: 75, delay: 150 },
       { val: 100, delay: 350 },
     ];
-
-    steps.forEach(({ val, delay }) => {
-      setTimeout(() => setProgress(val), delay);
-    });
-
-    // Salir a los 700ms
+    steps.forEach(({ val, delay }) => setTimeout(() => setProgress(val), delay));
     setTimeout(() => {
       setDone(true);
-      setTimeout(onDone, 300);
-    }, 700);
+      setTimeout(onDone, 250);
+    }, 650);
   }, [onDone]);
 
   return (
@@ -29,32 +23,33 @@ const LoadingScreen: React.FC<{ onDone: () => void }> = ({ onDone }) => {
       {!done && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.02 }}
-          transition={{ duration: 0.3 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
           style={{ background: 'var(--dark-bg)' }}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.94, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.25 }}
-            className="mb-8 relative"
+            transition={{ duration: 0.3 }}
+            className="mb-8"
           >
-            <div className="font-orbitron font-black text-5xl neon-text select-none">JT.</div>
-            <div className="glitch-layer glitch-layer-1 font-orbitron font-black text-5xl" aria-hidden="true">JT.</div>
+            <span className="font-orbitron font-bold text-4xl text-white select-none">
+              Jordan<span className="neon-text">T</span>
+            </span>
           </motion.div>
 
-          <div className="w-40">
-            <div className="h-px rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+          <div className="w-44">
+            <div className="h-[3px] rounded-full overflow-hidden" style={{ background: 'rgba(148,163,184,0.12)' }}>
               <motion.div
-                className="h-full"
+                className="h-full rounded-full"
                 style={{ background: 'linear-gradient(to right, var(--neon-cyan), var(--neon-violet))' }}
                 animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
               />
             </div>
-            <p className="text-center mt-3 font-mono-jb text-xs" style={{ color: 'rgba(255,255,255,0.2)', letterSpacing: '0.15em' }}>
-              {progress < 50 ? 'CARGANDO...' : progress < 100 ? 'PREPARANDO...' : 'LISTO'}
+            <p className="text-center mt-3 font-mono-jb text-xs" style={{ color: 'var(--text-faint)', letterSpacing: '0.18em' }}>
+              {progress < 50 ? 'CARGANDO' : progress < 100 ? 'PREPARANDO' : 'LISTO'}
             </p>
           </div>
         </motion.div>

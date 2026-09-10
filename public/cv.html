@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jordan Talledo - Currículum | Desarrollador Full Stack</title>
+  <meta name="description" content="Currículum de Jordan Enrique Talledo Salazar, Desarrollador Full Stack con Next.js, Firebase, SQL Server y React en Lima, Perú." />
+  <meta name="robots" content="noindex" />
+  <style>
+    :root{--cyan:#0284c7;--violet:#4f46e5;--ink:#0f172a;--muted:#5b6b85;--line:#e3e9f3}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:#eef2f8;line-height:1.55;padding:32px 16px}
+    .page{max-width:820px;margin:0 auto;background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(2,4,8,0.12);padding:48px 52px}
+    .toolbar{max-width:820px;margin:0 auto 18px;display:flex;justify-content:flex-end;gap:10px}
+    .print-btn{border:1px solid var(--cyan);background:#fff;color:var(--ink);font-weight:600;font-size:14px;padding:10px 22px;border-radius:8px;cursor:pointer;transition:background .2s}
+    .print-btn:hover{background:#e6ffff}
+    header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;border-bottom:3px solid var(--cyan);padding-bottom:22px;margin-bottom:26px}
+    h1{font-size:30px;letter-spacing:.5px}
+    .role{font-size:15px;font-weight:600;color:var(--violet);margin-top:4px}
+    .contact{font-size:13px;color:var(--muted);margin-top:10px;display:grid;gap:3px}
+    .contact a{color:var(--ink);text-decoration:none}
+    h2{font-size:16px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink);margin:26px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+    .skill{display:flex;justify-content:space-between;font-size:13.5px;padding:3px 0}
+    .barlbl{min-width:150px;font-weight:500}
+    .pct{font-weight:600}
+    .job{margin-bottom:16px}
+    .job h3{font-size:15px}
+    .co{color:var(--violet);font-weight:600;font-size:13.5px;margin:2px 0}
+    .lbl{font-size:13px;color:var(--muted)}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .tag{font-size:12px;background:#f1f5fb;border:1px solid var(--line);border-radius:20px;padding:3px 12px}
+    .proj{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13.5px}
+    .proj b{font-weight:600}
+    .proj span{color:var(--muted);font-size:12.5px}
+    ul{list-style:none}
+    ul li{padding:4px 0 4px 18px;position:relative;font-size:13.5px}
+    ul li::before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;background:var(--cyan);border-radius:50%}
+    .foot{text-align:center;color:var(--muted);font-size:12px;margin-top:26px;padding-top:14px;border-top:1px solid var(--line)}
+    @media print{
+      body{background:none;padding:0}
+      .page{box-shadow:none;padding:20px}
+      .toolbar{display:none}
+    }
+    @media (max-width:600px){
+      .page{padding:28px 22px}
+      header{flex-direction:column}
+      .grid2{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="print-btn" onclick="window.print()">Imprimir / Guardar PDF</button>
+  </div>
+  <div class="page">
+    <header>
+      <div>
+        <h1>JORDAN ENRIQUE TALLEDO SALAZAR</h1>
+        <p class="role">Desarrollador Full Stack · Next.js · Firebase · SQL Server</p>
+        <div class="contact">
+          <span>Lima, Perú</span>
+          <a href="mailto:programadortalledo@gmail.com">programadortalledo@gmail.com</a>
+          <a href="tel:+51977479152">+51 977 479 152</a>
+          <a href="https://github.com/J23-t">github.com/J23-t</a>
+          <a href="https://www.linkedin.com/in/jordan-talledo-02a5bb387">linkedin.com/in/jordan-talledo</a>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>Perfil Profesional</h2>
+      <p style="font-size:13.5px">Desarrollador web Full Stack, egresado técnico en Desarrollo de Sistemas de Información y estudiante de Ingeniería de Sistemas en Cibertec. Especialista en convertir necesidades de negocio en funcionalidades concretas: sistemas de gestión empresarial, software para restaurantes, e-commerce y aplicaciones web a medida con Next.js, React, Node.js, MongoDB y Firebase. Más de 10 proyectos entregados en producción.</p>
+    </section>
+
+    <section>
+      <h2>Experiencia Laboral</h2>
+      <div class="job">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap">
+          <h3>Desarrollador Web Freelance</h3><span class="lbl">2024 - Presente · Remoto</span>
+        </div>
+        <p class="co">Proyectos Propios y Clientes</p>
+        <p style="font-size:13.5px">Desarrollo de aplicaciones web completas desde el análisis del problema del negocio hasta el despliegue en producción. Sistemas de gestión empresarial (ventas, inventario, productos, clientes, visitadores, catálogos, gestión por tiendas, usuarios y roles), software para restaurantes (mesas, pedidos, cocina, menú, reservas, portal para clientes), e-commerce y más de 10 proyectos entregados. Uso inteligencia artificial como apoyo para investigar, analizar y acelerar el desarrollo.</p>
+        <div class="tags"><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">APIs</span><span class="tag">Firebase</span><span class="tag">SQL Server</span><span class="tag">TypeScript</span></div>
+      </div>
+      <div class="job">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap">
+          <h3>Soporte de TI - Prácticas Pre Profesionales</h3><span class="lbl">Actualidad - Presente · Bellavista, Callao</span>
+        </div>
+        <p class="co">Instituto Superior Tecnológico Público Simón Bolívar</p>
+        <p style="font-size:13.5px">Soporte técnico en infraestructura de TI, mantenimiento preventivo y correctivo de equipos, resolución de incidencias de red y asistencia directa a usuarios. Gestión de redes y administración de sistemas.</p>
+        <div class="tags"><span class="tag">Soporte TI</span><span class="tag">Redes</span><span class="tag">Mantenimiento</span><span class="tag">Windows Server</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Stack Técnico</h2>
+      <div class="grid2">
+        <div class="skill"><span class="barlbl">Next.js</span><span class="pct">90%</span></div>
+        <div class="skill"><span class="barlbl">React</span><span class="pct">88%</span></div>
+        <div class="skill"><span class="barlbl">JavaScript</span><span class="pct">88%</span></div>
+        <div class="skill"><span class="barlbl">TypeScript</span><span class="pct">82%</span></div>
+        <div class="skill"><span class="barlbl">Tailwind CSS</span><span class="pct">92%</span></div>
+        <div class="skill"><span class="barlbl">Firebase</span><span class="pct">92%</span></div>
+        <div class="skill"><span class="barlbl">SQL Server</span><span class="pct">85%</span></div>
+        <div class="skill"><span class="barlbl">Node.js</span><span class="pct">84%</span></div>
+        <div class="skill"><span class="barlbl">PostgreSQL</span><span class="pct">74%</span></div>
+        <div class="skill"><span class="barlbl">MongoDB</span><span class="pct">80%</span></div>
+        <div class="skill"><span class="barlbl">APIs REST</span><span class="pct">82%</span></div>
+        <div class="skill"><span class="barlbl">Git &amp; GitHub</span><span class="pct">88%</span></div>
+        <div class="skill"><span class="barlbl">Redux</span><span class="pct">70%</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Proyectos Destacados</h2>
+      <div class="proj"><div><b>Sistema de Gestión Empresarial</b> — Ventas, inventario, clientes, visitadores, catálogos, por tiendas y roles</div><span>Next.js · Node.js · MongoDB</span></div>
+      <div class="proj"><div><b>Plataforma para Restaurantes</b> — Mesas, pedidos, cocina, menú, reservas y portal de clientes</div><span>Next.js · React · Node.js</span></div>
+      <div class="proj"><div><b>Ferrefast</b> — E-commerce completo para ferretería</div><span>Next.js · Firebase</span></div>
+      <div class="proj"><div><b>Inventario-Rust</b> — Gestión de inventario para PYMEs</div><span>Next.js · Firebase Auth</span></div>
+      <div class="proj"><div><b>DraxBarber</b> — Web de barbería con reservas online</div><span>Next.js · Firebase</span></div>
+      <div class="proj"><div><b>AmoblarQ</b> — Marketplace de mobiliario y decoración</div><span>Next.js · Firebase</span></div>
+    </section>
+
+    <section>
+      <h2>Formación y Certificaciones</h2>
+      <ul>
+        <li>Ingeniería de Sistemas - en curso</li>
+        <li>Técnico en Desarrollo de Sistemas de Información</li>
+        <li>Certificación - Desarrollo Frontend</li>
+        <li>Certificación - JavaScript &amp; Backend</li>
+        <li>Certificación - Desarrollo de IA</li>
+        <li>Cisco Networking Academy - Ciberseguridad</li>
+      </ul>
+    </section>
+
+    <div class="foot">© 2026 Jordan Enrique Talledo Salazar</div>
+  </div>
+</body>
+</html>

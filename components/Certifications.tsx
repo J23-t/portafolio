@@ -1,139 +1,93 @@
 import React from 'react';
-// Fix for framer-motion variants type error by importing Variants type
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { certifications } from '../data/certifications';
 
-// FIX: To resolve 'ion-icon' type errors, the namespace for JSX intrinsic elements was updated to `React.JSX`.
-// This is necessary for modern React projects using the automatic JSX runtime.
-declare global {
-  namespace React.JSX {
-    interface IntrinsicElements {
-      'ion-icon': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-        name?: string;
-      };
-    }
-  }
-}
+const Certifications: React.FC = () => (
+  <section id="certifications" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-bg)' }}>
+    <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
 
-// Fix for framer-motion variants type error
-const sectionContainerVariants: Variants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-    },
-  },
-};
+    {/* Glow de fondo */}
+    <div className="absolute bottom-0 right-0 w-96 h-96 pointer-events-none"
+      style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.06) 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
-// Fix for framer-motion variants type error
-const itemVariants: Variants = {
-  hidden: { y: 25, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
-};
-
-const Certifications: React.FC = () => {
-  const handleCardClick = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  const handleLinkClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
-  return (
-    <section id="certifications" className="py-20 lg:py-32 relative overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      </div>
-      <motion.div 
-        className="container mx-auto px-4 sm:px-6"
-        variants={sectionContainerVariants}
+    <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        className="mb-14"
       >
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <motion.h2 
-            className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-slate-900 via-cyan-800 to-slate-900 dark:from-white dark:via-cyan-400 dark:to-white bg-clip-text text-transparent"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            Certificaciones
-          </motion.h2>
-          <motion.p 
-            className="text-lg text-slate-600 dark:text-slate-400 mt-4 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            Mi compromiso con el aprendizaje continuo y la especialización profesional
-          </motion.p>
-          <motion.div 
-            className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-6 rounded-full"
-            initial={{ width: 0 }}
-            whileInView={{ width: 96 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          />
-        </motion.div>
-
-        <motion.div 
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto"
-          variants={sectionContainerVariants}
-        >
-          {certifications.map((cert, index) => (
-            <motion.div 
-              key={index} 
-              variants={itemVariants}
-              onClick={() => handleCardClick(cert.url)}
-              className="group relative bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col text-center transition-all duration-500 cursor-pointer overflow-hidden"
-              whileHover={{ y: -10, scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              {/* Gradient overlay on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              />
-              
-              <motion.div 
-                className="relative z-10 text-cyan-500 text-7xl mb-6 mx-auto"
-                whileHover={{ rotate: 360, scale: 1.2 }}
-                transition={{ duration: 0.6 }}
-              >
-                {/* FIX: Changed to self-closing tag for ion-icon */}
-                <ion-icon name={cert.icon} />
-              </motion.div>
-              
-              <h3 className="relative z-10 text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                {cert.title}
-              </h3>
-              <p className="relative z-10 text-md text-slate-500 dark:text-slate-400 mb-6 font-medium">{cert.issuer}</p>
-              
-              <motion.a 
-                href={cert.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleLinkClick}
-                className="relative z-10 mt-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Ver Certificado {/* FIX: Changed to self-closing tag for ion-icon */}
-                <ion-icon name="arrow-forward-outline" />
-              </motion.a>
-              
-              {/* Corner decoration */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            </motion.div>
-          ))}
-        </motion.div>
+        <p className="section-label mb-3">// FORMACIÓN</p>
+        <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
+          CERTIFICACIONES<span className="neon-text">.</span>
+        </h2>
+        <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
+        <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
+          Aprendizaje continuo y especialización en tecnologías actuales.
+        </p>
       </motion.div>
-    </section>
-  );
-};
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {certifications.map((cert, i) => {
+          const isCisco = cert.issuer === 'Cisco Networking Academy';
+          const color = isCisco ? 'var(--neon-violet)' : 'var(--neon-cyan)';
+          const accent = isCisco ? 'rgba(129,140,248,0.08)' : 'rgba(56,189,248,0.06)';
+          const borderColor = isCisco ? 'rgba(129,140,248,0.3)' : 'rgba(56,189,248,0.15)';
+
+          return (
+            <motion.a
+              key={i}
+              href={cert.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08, duration: 0.4 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -6 }}
+              className="glass-card rounded-xl p-6 flex flex-col group relative overflow-hidden"
+              style={{
+                border: `1px solid ${borderColor}`,
+                background: accent,
+              }}
+              aria-label={`Ver certificado: ${cert.title}`}
+            >
+              {/* Línea top de color */}
+              <div className="absolute top-0 left-0 right-0 h-px"
+                style={{ background: `linear-gradient(to right, transparent, ${color}, transparent)` }} />
+
+              {/* Badge Cisco */}
+              {isCisco && (
+                <span className="absolute top-3 right-3 text-xs px-2 py-0.5 rounded-full font-medium"
+                  style={{ background: 'rgba(129,140,248,0.12)', border: '1px solid rgba(129,140,248,0.3)', color: 'var(--neon-violet)', fontFamily: "'Inter', sans-serif", fontSize: '0.6rem' }}>
+                  Destacado
+                </span>
+              )}
+
+              {/* Icono */}
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5 flex-shrink-0"
+                style={{ background: `${color}12`, border: `1px solid ${color}30`, color }}>
+                <ion-icon name={cert.icon} />
+              </div>
+
+              <h3 className="font-orbitron font-bold text-sm text-white mb-1 leading-snug">{cert.title}</h3>
+              <p className="text-xs mb-5 flex-grow" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>
+                {cert.issuer}
+              </p>
+
+              {/* CTA */}
+              <div className="flex items-center gap-1.5 text-xs font-medium transition-colors"
+                style={{ color, fontFamily: "'Inter', sans-serif" }}>
+                Ver certificado
+                <ion-icon name="arrow-forward-outline" style={{ fontSize: '12px' } as React.CSSProperties} />
+              </div>
+            </motion.a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
 
 export default Certifications;

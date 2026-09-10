@@ -12,16 +12,17 @@ const ParticleCanvas: React.FC = () => {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let raf: number;
     const isMobile = window.innerWidth < 768;
-    const COUNT = isMobile ? 15 : 35;
+    const COUNT = isMobile ? 35 : 70;
     const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
     resize();
     window.addEventListener('resize', resize, { passive: true });
     const pts = Array.from({ length: COUNT }, () => ({
       x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.2 + 0.4,
+      vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+      r: Math.random() * 1.1 + 0.4,
     }));
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -32,16 +33,16 @@ const ParticleCanvas: React.FC = () => {
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,245,255,0.35)';
+        ctx.fillStyle = 'rgba(56,189,248,0.22)';
         ctx.fill();
         for (let j = i + 1; j < pts.length; j++) {
           const q = pts[j];
           const dx = p.x - q.x, dy = p.y - q.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
+          if (dist < 110) {
             ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
-            ctx.strokeStyle = `rgba(0,245,255,${(1 - dist / 100) * 0.07})`;
-            ctx.lineWidth = 0.5; ctx.stroke();
+            ctx.strokeStyle = `rgba(129,140,248,${(1 - dist / 110) * 0.05})`;
+            ctx.lineWidth = 0.6; ctx.stroke();
           }
         }
       }
@@ -50,123 +51,158 @@ const ParticleCanvas: React.FC = () => {
     draw();
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', resize); };
   }, []);
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" style={{ opacity: 0.45 }} />;
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" style={{ opacity: 0.6 }} />;
 };
 
 const Aurora: React.FC = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
     <div className="absolute rounded-full"
-      style={{ width: 'min(600px,80vw)', height: 'min(600px,80vw)', background: 'radial-gradient(circle, rgba(0,245,255,0.09) 0%, transparent 70%)', top: '-10%', left: '-10%', filter: 'blur(80px)', animation: 'auroraA 14s ease-in-out infinite' }} />
+      style={{ width: 'min(680px,90vw)', height: 'min(680px,90vw)', background: 'radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 70%)', top: '-15%', left: '-10%', filter: 'blur(90px)', animation: 'auroraA 16s ease-in-out infinite' }} />
     <div className="absolute rounded-full"
-      style={{ width: 'min(500px,70vw)', height: 'min(500px,70vw)', background: 'radial-gradient(circle, rgba(191,0,255,0.07) 0%, transparent 70%)', bottom: '-10%', right: '-10%', filter: 'blur(80px)', animation: 'auroraB 18s ease-in-out infinite' }} />
+      style={{ width: 'min(560px,80vw)', height: 'min(560px,80vw)', background: 'radial-gradient(circle, rgba(129,140,248,0.09) 0%, transparent 70%)', bottom: '-15%', right: '-10%', filter: 'blur(90px)', animation: 'auroraB 20s ease-in-out infinite' }} />
   </div>
 );
 
 const Hero: React.FC<HeroProps> = () => (
   <section
     id="home"
-    aria-label="Jordan Talledo - Desarrollador Full Stack que construye aplicaciones web para empresas en Lima"
+    aria-label="Jordan Talledo - Desarrollador Web Full Stack en Lima, Perú"
     className="relative flex items-center justify-center overflow-hidden cyber-grid"
-    style={{ background: 'var(--dark-bg)', minHeight: '100svh', paddingTop: '80px', paddingBottom: '60px' }}
+    style={{ background: 'var(--dark-bg)', minHeight: '100svh', paddingTop: '96px', paddingBottom: '72px' }}
   >
     <Aurora />
     <ParticleCanvas />
 
-    <div className="absolute top-24 left-6 w-5 h-5 border-t border-l hidden lg:block" style={{ borderColor: 'rgba(0,245,255,0.2)' }} aria-hidden="true" />
-    <div className="absolute top-24 right-6 w-5 h-5 border-t border-r hidden lg:block" style={{ borderColor: 'rgba(0,245,255,0.2)' }} aria-hidden="true" />
-
     <div className="container mx-auto px-5 sm:px-8 relative z-10 text-center">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="max-w-2xl mx-auto">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="max-w-3xl mx-auto">
 
-        {/* Propuesta de valor — primera cosa que lee el visitante */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
-          className="text-sm sm:text-base font-medium mb-5 sm:mb-6"
-          style={{ color: 'rgba(255,255,255,0.5)', fontFamily: "'Space Grotesk', sans-serif", letterSpacing: '0.02em' }}
+        {/* Badge disponibilidad */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.08, duration: 0.5 }}
+          className="mb-7"
         >
-          Desarrollador Full Stack en Lima, Perú
-          <span className="mx-2" style={{ color: 'rgba(255,255,255,0.2)' }}>·</span>
-          <span style={{ color: 'var(--neon-cyan)' }}>Disponible para proyectos</span>
-        </motion.p>
+          <span className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full"
+            style={{ border: '1px solid rgba(52,211,153,0.35)', background: 'rgba(52,211,153,0.07)' }}>
+            <span className="w-2 h-2 rounded-full" style={{ background: 'var(--neon-green)', boxShadow: '0 0 8px var(--neon-green)' }} />
+            <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--neon-green)', fontFamily: "'Inter', sans-serif" }}>
+              Disponible para proyectos · Lima, Perú
+            </span>
+          </span>
+        </motion.div>
 
-        {/* H1 SEO oculto */}
-        <h1 className="sr-only">Jordan Talledo – Desarrollador Full Stack Next.js Firebase SQL Server Lima Peru</h1>
+        {/* H1 — propuesta de valor real */}
+        <motion.h1
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.55 }}
+          className="font-orbitron font-bold leading-[1.08] tracking-tight mb-6 text-[clamp(2rem,6vw,3.4rem)]"
+          style={{ color: 'var(--text-bright)' }}
+        >
+          Desarrollos web que{' '}
+          <span className="neon-text">resuelven</span>{' '}
+          las necesidades de tu negocio
+        </motion.h1>
 
-        {/* Nombre — glitch decorativo */}
-        <div className="relative mb-1 select-none" aria-hidden="true">
-          <div className="font-orbitron font-black text-[clamp(2.5rem,10vw,6rem)] text-white leading-none tracking-tight">JORDAN</div>
-          <div className="glitch-layer glitch-layer-1 font-orbitron font-black text-[clamp(2.5rem,10vw,6rem)] leading-none tracking-tight">JORDAN</div>
-          <div className="glitch-layer glitch-layer-2 font-orbitron font-black text-[clamp(2.5rem,10vw,6rem)] leading-none tracking-tight">JORDAN</div>
-        </div>
-        <div className="mb-5 sm:mb-7" aria-hidden="true">
-          <div className="font-orbitron font-bold text-[clamp(2rem,8vw,5rem)] leading-none tracking-tight neon-text">TALLEDO</div>
-        </div>
+        {/* Nombres + rol */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.22, duration: 0.5 }}
+          className="mb-5"
+        >
+          <p style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
+            Soy <span className="font-semibold" style={{ color: 'var(--text-bright)' }}>Jordan Talledo</span>, desarrollador Full Stack en Lima.
+            Sistemas de gestión empresarial, software para restaurantes y 10+ proyectos reales con Next.js, React, Node.js, Firebase y MongoDB.
+          </p>
+        </motion.div>
 
         {/* Rol — typing */}
-        <div className="mb-5 h-6 sm:h-7 flex items-center justify-center">
-          <TypeAnimation
-            sequence={[
-              'Construyo apps web con Next.js y Firebase', 2800,
-              'Especialista en E-commerce y SaaS', 2200,
-              'Diseño UX/UI centrado en conversión', 2200,
-              'Entrego proyectos en tiempo y forma', 2200,
-            ]}
-            wrapper="span" speed={65} repeat={Infinity}
-            className="text-sm sm:text-base font-mono-jb"
-            style={{ color: 'rgba(0,245,255,0.8)' }}
-          />
-          <span className="font-mono-jb text-sm sm:text-base blink ml-0.5" style={{ color: 'var(--neon-cyan)' }}>_</span>
-        </div>
-
-        {/* Descripción — propuesta de valor específica */}
-        <p className="text-base sm:text-lg max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2"
-          style={{ color: 'rgba(255,255,255,0.6)', fontFamily: "'Space Grotesk', sans-serif" }}>
-          Ayudo a empresas y emprendedores a lanzar sus productos digitales.{' '}
-          <strong style={{ color: 'rgba(255,255,255,0.88)' }}>+10 proyectos</strong> entregados con{' '}
-          <strong style={{ color: 'rgba(255,255,255,0.88)' }}>Next.js</strong>,{' '}
-          <strong style={{ color: 'rgba(255,255,255,0.88)' }}>Firebase</strong> y{' '}
-          <strong style={{ color: 'rgba(255,255,255,0.88)' }}>SQL Server</strong>.
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-10 sm:mb-14 px-4 sm:px-0">
-          <a href="#projects"
-            onClick={(e) => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }}
-            className="cyber-btn text-center" style={{ minWidth: '160px' }}
-            aria-label="Ver proyectos de Jordan Talledo">
-            VER PROYECTOS
-          </a>
-          <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer"
-            className="cyber-btn cyber-btn-violet text-center" style={{ minWidth: '160px' }}
-            aria-label="Contactar a Jordan Talledo por WhatsApp">
-            CONTACTAR
-          </a>
-        </div>
-
-        {/* Stats con animación de entrada escalonada */}
         <motion.div
-          className="flex justify-center gap-6 sm:gap-16"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="mb-8 h-7 flex items-center justify-center"
         >
-          {[
-            { value: '2+', label: 'Años exp.' },
-            { value: '10+', label: 'Proyectos' },
-            { value: '100%', label: 'Satisfacción' },
-          ].map(({ value, label }, i) => (
-            <motion.div
-              key={label}
-              className="text-center"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.7 + i * 0.1, duration: 0.4, type: 'spring', stiffness: 200 }}
-            >
-              <p className="font-orbitron font-bold text-xl sm:text-3xl neon-text">{value}</p>
-              <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.4)', fontFamily: "'Space Grotesk', sans-serif" }}>{label}</p>
-            </motion.div>
+          <TypeAnimation
+            sequence={[
+              'Sistemas de gestión empresarial a medida', 2600,
+              'Software para restaurantes: pedidos, mesas, cocina', 2400,
+              'Tiendas online y control de inventario digital', 2400,
+              'Aplicaciones web con IA como aliada del desarrollo', 2200,
+            ]}
+            wrapper="span" speed={60} repeat={Infinity}
+            className="text-sm sm:text-base font-mono-jb"
+            style={{ color: 'var(--text-body)' }}
+          />
+          <span className="font-mono-jb text-sm sm:text-base blink ml-0.5" style={{ color: 'var(--neon-cyan)' }}>_</span>
+        </motion.div>
+
+        {/* CTAs */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 0.5 }}
+          className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-12 px-2 sm:px-0"
+        >
+          <a href="#projects"
+            onClick={(e) => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }}
+            className="cyber-btn text-center" style={{ minWidth: '180px' }}
+            aria-label="Ver proyectos de Jordan Talledo">
+            Ver proyectos
+          </a>
+          <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer"
+            className="cyber-btn cyber-btn-violet text-center" style={{ minWidth: '180px' }}
+            aria-label="Contactar a Jordan Talledo por WhatsApp">
+            <span className="flex items-center justify-center gap-2">
+              <ion-icon name="logo-whatsapp" style={{ fontSize: '15px' } as React.CSSProperties} />
+              Hablemos de tu proyecto
+            </span>
+          </a>
+        </motion.div>
+
+        {/* Social proof */}
+        <motion.div
+          className="flex justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.55, duration: 0.5 }}
+        >
+          <div className="grid grid-cols-3 divide-x divide-slate-700/60 rounded-2xl px-2 py-4 w-full max-w-xl"
+            style={{ background: 'rgba(14,22,38,0.5)', border: '1px solid rgba(148,163,184,0.12)', backdropFilter: 'blur(10px)' }}>
+            {[
+              { value: '10+', label: 'Proyectos reales' },
+              { value: '100%', label: 'Clientes satisfechos' },
+              { value: '<24h', label: 'Tiempo de respuesta' },
+            ].map(({ value, label }, i) => (
+              <motion.div
+                key={label}
+                className="text-center px-2"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.65 + i * 0.1, duration: 0.4, type: 'spring', stiffness: 240 }}
+              >
+                <p className="font-orbitron font-bold text-xl sm:text-2xl" style={{ color: 'var(--text-bright)' }}>{value}</p>
+                <p className="text-xs mt-1" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>{label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Tech strip — credibilidad inmediata */}
+        <motion.div
+          className="flex flex-wrap justify-center items-center gap-x-5 gap-y-2 mt-7"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
+        >
+          {['Next.js', 'React', 'Node.js', 'MongoDB', 'Firebase', 'APIs'].map(tech => (
+            <span key={tech} className="flex items-center gap-1.5 font-mono-jb text-xs"
+              style={{ color: 'var(--text-faint)' }}>
+              <span className="w-1 h-1 rounded-full" style={{ background: 'var(--neon-cyan)', boxShadow: '0 0 6px var(--neon-cyan)' }} />
+              {tech}
+            </span>
           ))}
         </motion.div>
       </motion.div>
@@ -175,12 +211,12 @@ const Hero: React.FC<HeroProps> = () => (
     {/* Scroll indicator */}
     <a href="#about"
       onClick={(e) => { e.preventDefault(); document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' }); }}
-      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 group"
-      style={{ animation: 'scrollBounce 2s ease-in-out infinite' }}
+      className="absolute bottom-6 left-1/2 z-10 flex flex-col items-center gap-1.5 group"
+      style={{ animation: 'scrollBounce 2.2s ease-in-out infinite' }}
       aria-label="Ir a Sobre mí">
-      <span style={{ color: 'rgba(255,255,255,0.2)', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.2em', fontSize: '0.55rem' }}>SCROLL</span>
-      <div className="w-px h-6" style={{ background: 'linear-gradient(to bottom, rgba(0,245,255,0.4), transparent)' }} />
-      <ion-icon name="chevron-down-outline" style={{ color: 'rgba(0,245,255,0.4)', fontSize: '16px' } as React.CSSProperties} />
+      <span style={{ color: 'var(--text-faint)', fontFamily: "'Inter', sans-serif", letterSpacing: '0.24em', fontSize: '0.55rem' }}>SCROLL</span>
+      <div className="w-px h-6" style={{ background: 'linear-gradient(to bottom, rgba(56,189,248,0.4), transparent)' }} />
+      <ion-icon name="chevron-down-outline" style={{ color: 'rgba(56,189,248,0.5)', fontSize: '15px' } as React.CSSProperties} />
     </a>
   </section>
 );
