@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SITE } from '../config/site';
+import Reveal from './Reveal';
 
 const faqs = [
   {
@@ -37,13 +38,13 @@ const Faq: React.FC = () => {
       <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-12">
+        <Reveal className="mb-12">
           <p className="section-label mb-3">// PREGUNTAS FRECUENTES</p>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
             DUDAS COMUNES<span className="neon-text">.</span>
           </h2>
           <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
-        </motion.div>
+        </Reveal>
 
         <div className="max-w-3xl mx-auto space-y-3">
           {faqs.map(({ q, a }, i) => {

@@ -1,6 +1,7 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 import { SITE } from '../config/site'
+import Reveal from './Reveal'
+import Magnetic from './Magnetic'
 
 const MidCTA: React.FC = () => (
   <section className="py-16 relative overflow-hidden" style={{ background: 'var(--dark-bg)' }}>
@@ -9,13 +10,7 @@ const MidCTA: React.FC = () => (
     <div className="absolute inset-0 pointer-events-none"
       style={{ background: 'radial-gradient(600px 200px at 50% 50%, rgba(56,189,248,0.06), transparent 70%)' }} />
 
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
-      className="container mx-auto px-5 sm:px-8 text-center relative z-10"
-    >
+    <Reveal className="container mx-auto px-5 sm:px-8 text-center relative z-10">
       <p className="section-label mb-4">// LISTO PARA EMPEZAR</p>
       <h2 className="font-orbitron font-bold text-2xl sm:text-4xl text-white mb-3">
         Convierte el proceso de tu negocio en<span className="neon-text"> software real</span>
@@ -24,14 +19,16 @@ const MidCTA: React.FC = () => (
         Cuéntame tu necesidad por WhatsApp y recibe una propuesta clara. Sin compromiso, respondo en menos de 24 horas.
       </p>
       <div className="flex flex-col sm:flex-row justify-center items-center gap-3">
-        <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="cyber-btn">
-          <span className="flex items-center gap-2">
-            <ion-icon name="logo-whatsapp" style={{ fontSize: '15px' } as React.CSSProperties} />
-            INICIAR PROYECTO
-          </span>
-        </a>
+        <Magnetic strength={12} radius={240}>
+          <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="cyber-btn">
+            <span className="flex items-center gap-2">
+              <ion-icon name="logo-whatsapp" style={{ fontSize: '15px' } as React.CSSProperties} />
+              INICIAR PROYECTO
+            </span>
+          </a>
+        </Magnetic>
       </div>
-    </motion.div>
+    </Reveal>
   </section>
 )
 

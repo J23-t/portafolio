@@ -1,9 +1,50 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 import { SITE } from '../config/site';
+import Magnetic from './Magnetic';
 
-interface HeroProps { isDarkMode: boolean; }
+/** Cursor glow — radial light that follows mouse inside Hero */
+const useCursorGlow = () => {
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 80, damping: 22 });
+  const sy = useSpring(my, { stiffness: 80, damping: 22 });
+  const [visible, setVisible] = useState(false);
+
+  const onMove = useCallback((e: React.MouseEvent) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    mx.set(e.clientX - rect.left);
+    my.set(e.clientY - rect.top);
+    if (!visible) setVisible(true);
+  }, [mx, my, visible]);
+
+  const onLeave = useCallback(() => {
+    setVisible(false);
+  }, []);
+
+  return { onMove, onLeave, glow: (
+    <motion.div
+      className="absolute inset-0 pointer-events-none z-[1]"
+      aria-hidden="true"
+      style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.5s ease' }}
+    >
+      <motion.div
+        className="absolute rounded-full pointer-events-none"
+        style={{
+          x: sx,
+          y: sy,
+          width: 520,
+          height: 520,
+          translateX: '-50%',
+          translateY: '-50%',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.08) 0%, rgba(129,140,248,0.04) 40%, transparent 70%)',
+          filter: 'blur(40px)',
+        }}
+      />
+    </motion.div>
+  )};
+};
 
 const ParticleCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,15 +104,21 @@ const Aurora: React.FC = () => (
   </div>
 );
 
-const Hero: React.FC<HeroProps> = () => (
-  <section
-    id="home"
-    aria-label="Jordan Talledo - Desarrollador Web Full Stack en Lima, Perú"
-    className="relative flex items-center justify-center overflow-hidden cyber-grid"
-    style={{ background: 'var(--dark-bg)', minHeight: '100svh', paddingTop: '96px', paddingBottom: '72px' }}
-  >
-    <Aurora />
-    <ParticleCanvas />
+const Hero: React.FC = () => {
+  const cursor = useCursorGlow();
+
+  return (
+    <section
+      id="home"
+      aria-label="Jordan Talledo - Desarrollador Web Full Stack en Lima, Perú"
+      className="relative flex items-center justify-center overflow-hidden cyber-grid"
+      style={{ background: 'var(--dark-bg)', minHeight: '100svh', paddingTop: '96px', paddingBottom: '72px' }}
+      onMouseMove={cursor.onMove}
+      onMouseLeave={cursor.onLeave}
+    >
+      <Aurora />
+      <ParticleCanvas />
+      {cursor.glow}
 
     <div className="container mx-auto px-5 sm:px-8 relative z-10 text-center">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="max-w-3xl mx-auto">
@@ -146,20 +193,24 @@ const Hero: React.FC<HeroProps> = () => (
           transition={{ delay: 0.35, duration: 0.5 }}
           className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 mb-12 px-2 sm:px-0"
         >
+          <Magnetic strength={14} radius={260}>
           <a href="#projects"
             onClick={(e) => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }}
             className="cyber-btn text-center" style={{ minWidth: '180px' }}
             aria-label="Ver proyectos de Jordan Talledo">
             Ver proyectos
           </a>
-          <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer"
-            className="cyber-btn cyber-btn-violet text-center" style={{ minWidth: '180px' }}
-            aria-label="Contactar a Jordan Talledo por WhatsApp">
-            <span className="flex items-center justify-center gap-2">
-              <ion-icon name="logo-whatsapp" style={{ fontSize: '15px' } as React.CSSProperties} />
-              Hablemos de tu proyecto
-            </span>
-          </a>
+        </Magnetic>
+          <Magnetic strength={14} radius={260}>
+            <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer"
+              className="cyber-btn cyber-btn-violet text-center" style={{ minWidth: '180px' }}
+              aria-label="Contactar a Jordan Talledo por WhatsApp">
+              <span className="flex items-center justify-center gap-2">
+                <ion-icon name="logo-whatsapp" style={{ fontSize: '15px' } as React.CSSProperties} />
+                Hablemos de tu proyecto
+              </span>
+            </a>
+          </Magnetic>
         </motion.div>
 
         {/* Social proof */}
@@ -218,7 +269,8 @@ const Hero: React.FC<HeroProps> = () => (
       <div className="w-px h-6" style={{ background: 'linear-gradient(to bottom, rgba(56,189,248,0.4), transparent)' }} />
       <ion-icon name="chevron-down-outline" style={{ color: 'rgba(56,189,248,0.5)', fontSize: '15px' } as React.CSSProperties} />
     </a>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Hero;

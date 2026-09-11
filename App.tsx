@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -17,33 +18,20 @@ import BackToTopButton from './components/BackToTopButton';
 import LoadingScreen from './components/LoadingScreen';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { projectsSchema, breadcrumbSchema } from './components/SEO';
 
-type Theme = 'dark' | 'light';
-
-// Divisor visual entre secciones — transición intencional, no abrupta
 const Divider: React.FC = () => (
   <div className="section-divider" aria-hidden="true" />
 );
 
 const App: React.FC = () => {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    const saved = typeof window !== 'undefined' ? localStorage.getItem('jt-theme') : null;
-    if (saved === 'light') return false;
-    if (saved === 'dark') return true;
-    return true; // Por defecto dark (identidad visual neon)
-  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const theme: Theme = isDarkMode ? 'dark' : 'light';
-    localStorage.setItem('jt-theme', theme);
     const root = document.documentElement;
-    root.classList.toggle('dark', isDarkMode);
-    root.classList.toggle('light', !isDarkMode);
-    root.style.colorScheme = theme;
-  }, [isDarkMode]);
-
-  const toggleTheme = () => setIsDarkMode(d => !d);
+    root.classList.add('dark');
+    root.style.colorScheme = 'dark';
+  }, []);
 
   useEffect(() => {
     document.querySelectorAll('ion-icon').forEach(icon => icon.setAttribute('aria-hidden', 'true'));
@@ -51,13 +39,18 @@ const App: React.FC = () => {
 
   return (
     <ErrorBoundary>
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(projectsSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
       <LoadingScreen onDone={() => setLoading(false)} />
       {!loading && (
         <div className="app-theme" style={{ background: 'var(--dark-bg)', color: 'var(--text-primary)' }}>
-          <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+          <Header />
           <main role="main" aria-label="Contenido principal">
-            <Hero isDarkMode={isDarkMode} />
+            <Hero />
             <Divider />
+
             <About />
             <Divider />
             <Projects />

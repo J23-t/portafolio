@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { experience } from '../data/experience';
+import Reveal from './Reveal';
 
 const Experience: React.FC = () => {
   return (
@@ -8,13 +9,7 @@ const Experience: React.FC = () => {
       <div className="absolute inset-0 cyber-grid opacity-20" />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, x: -24 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          viewport={{ once: true }}
-          className="mb-14"
-        >
+        <Reveal className="mb-14">
           <p className="section-label mb-3">// TRAYECTORIA</p>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
             EXPERIENCIA<span className="neon-text">.</span>
@@ -23,7 +18,7 @@ const Experience: React.FC = () => {
           <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
             Trayectoria construida con proyectos reales y aprendizaje continuo.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="max-w-4xl mx-auto relative">
           <div className="absolute left-6 top-2 bottom-2 w-px hidden sm:block"

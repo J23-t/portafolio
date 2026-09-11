@@ -2,10 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SITE } from '../config/site';
 
-interface HeaderProps {
-  isDarkMode: boolean;
-  toggleTheme: () => void;
-}
+interface HeaderProps {}
 
 const navLinks = [
   { href: '#about', label: 'Sobre mí' },
@@ -15,7 +12,7 @@ const navLinks = [
   { href: '#contact', label: 'Contacto' },
 ];
 
-const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleTheme }) => {
+const Header: React.FC<HeaderProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
@@ -107,20 +104,6 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleTheme }) => {
 
         {/* Right actions */}
         <div className="flex items-center gap-2.5">
-          {/* Theme toggle */}
-          <button
-            onClick={toggleTheme}
-            className="w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200"
-            style={{ border: '1px solid rgba(148,163,184,0.18)', background: 'rgba(148,163,184,0.06)' }}
-            aria-label={isDarkMode ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-            title={isDarkMode ? 'Modo claro' : 'Modo oscuro'}
-          >
-            <ion-icon
-              name={isDarkMode ? 'sunny-outline' : 'moon-outline'}
-              style={{ fontSize: '17px', color: 'var(--text-strong)' } as React.CSSProperties}
-            />
-          </button>
-
           {/* CTA — desktop */}
           <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer"
             className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200"
@@ -136,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleTheme }) => {
           </a>
 
           {/* CV — desktop */}
-          <a href="/cv.html" target="_blank" rel="noopener noreferrer"
+          <a href="/cv.pdf" target="_blank" rel="noopener noreferrer"
             className="hidden xl:flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium transition-all duration-200"
             style={{
               background: 'rgba(148,163,184,0.06)',
@@ -199,7 +182,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, toggleTheme }) => {
                 <ion-icon name="logo-whatsapp" style={{ fontSize: '16px' } as React.CSSProperties} />
                 Contratar ahora
               </a>
-              <a href="/cv.html" target="_blank" rel="noopener noreferrer"
+              <a href="/cv.pdf" target="_blank" rel="noopener noreferrer"
                 className="mt-3 flex items-center justify-center gap-2 py-3.5 rounded-xl text-sm font-medium"
                 style={{ background: 'rgba(148,163,184,0.06)', border: '1px solid rgba(148,163,184,0.18)', color: 'var(--text-strong)', fontFamily: "'Inter', sans-serif" }}>
                 <ion-icon name="document-text-outline" style={{ fontSize: '16px' } as React.CSSProperties} />

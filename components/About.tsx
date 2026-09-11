@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
 import { useInView } from 'react-intersection-observer';
 import { SITE } from '../config/site';
+import ShimmerCard from './ShimmerCard';
+import Reveal from './Reveal';
 
 const stats = [
   { value: 10, suffix: '+', label: 'Proyectos entregados', color: 'var(--neon-cyan)' },
@@ -26,14 +28,14 @@ const About: React.FC = () => {
       <div className="absolute inset-0 cyber-grid opacity-25 pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-14">
+        <Reveal className="mb-14">
           <p className="section-label mb-3">// SOBRE MÍ</p>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">QUIÉN SOY<span className="neon-text">.</span></h2>
           <div className="mt-4 h-px w-24" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
           <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
             Egresado técnico en Desarrollo de Sistemas de Información, estudiante de Ingeniería de Sistemas en Cibertec.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-14 items-center">
           {/* Left: texto humanizado + stats */}
@@ -70,14 +72,14 @@ const About: React.FC = () => {
             {/* Stats */}
             <div ref={statsRef} className="grid grid-cols-2 gap-3 pt-2">
               {stats.map(({ value, suffix, label, color }) => (
-                <div key={label} className="glass-card rounded-xl p-4 text-center relative overflow-hidden">
+                <ShimmerCard key={label} className="glass-card rounded-xl p-4 text-center relative overflow-hidden">
                   <div className="absolute top-0 left-0 right-0 h-[2px]"
                     style={{ background: `linear-gradient(to right, transparent, ${color}, transparent)` }} />
                   <p className="font-orbitron font-bold text-2xl sm:text-3xl" style={{ color }}>
                     {statsInView ? <CountUp end={value} duration={1.6} suffix={suffix} /> : <span>0{suffix}</span>}
                   </p>
                   <p className="text-xs mt-1.5" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>{label}</p>
-                </div>
+                </ShimmerCard>
               ))}
             </div>
           </motion.div>

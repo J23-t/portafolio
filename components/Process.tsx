@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SITE } from '../config/site';
+import Reveal from './Reveal';
 
 const steps = [
   {
@@ -43,7 +44,7 @@ const Process: React.FC = () => (
     <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
 
     <div className="container mx-auto px-4 sm:px-6 relative z-10">
-      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-14">
+      <Reveal className="mb-14">
         <p className="section-label mb-3">// PROCESO</p>
         <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
           CÓMO TRABAJO<span className="neon-text">.</span>
@@ -52,7 +53,7 @@ const Process: React.FC = () => (
         <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
           Un proceso claro y transparente para que sepas exactamente qué esperar.
         </p>
-      </motion.div>
+      </Reveal>
 
       {/* Desktop: horizontal con conectores */}
       <div className="hidden lg:block relative">

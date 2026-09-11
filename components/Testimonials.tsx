@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { testimonials } from '../data/testimonials';
+import ShimmerCard from './ShimmerCard';
+import Reveal from './Reveal';
 
 const getInitials = (name: string) =>
   name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
@@ -25,7 +27,7 @@ const Testimonials: React.FC = () => {
       <div className="absolute inset-0 cyber-grid opacity-20 pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-14">
+        <Reveal className="mb-14">
           <p className="section-label mb-3">// TESTIMONIOS</p>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
             LO QUE DICEN<span className="neon-text">.</span>
@@ -34,7 +36,7 @@ const Testimonials: React.FC = () => {
           <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
             La opinión de las personas para las que he trabajado.
           </p>
-        </motion.div>
+        </Reveal>
 
         {/* Mobile: carrusel. Desktop: grid */}
         <>
@@ -46,37 +48,40 @@ const Testimonials: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1, duration: 0.4 }}
                 viewport={{ once: true }}
-                className="glass-card rounded-xl p-7 flex flex-col relative overflow-hidden"
-                style={{ borderTop: '2px solid rgba(56,189,248,0.15)' }}
               >
-                {/* Quote mark decorativo */}
-                <div className="absolute top-4 right-5 font-orbitron font-black text-6xl leading-none select-none pointer-events-none"
-                  style={{ color: 'rgba(56,189,248,0.05)' }}>"</div>
+                <ShimmerCard
+                  className="glass-card rounded-xl p-7 flex flex-col relative overflow-hidden h-full"
+                  style={{ borderTop: '2px solid rgba(56,189,248,0.15)' }}
+                >
+                  {/* Quote mark decorativo */}
+                  <div className="absolute top-4 right-5 font-orbitron font-black text-6xl leading-none select-none pointer-events-none"
+                    style={{ color: 'rgba(56,189,248,0.05)' }}>"</div>
 
-                {/* Stars */}
-                <div className="flex gap-1 mb-5">
-                  {[...Array(5)].map((_, s) => (
-                    <span key={s} style={{ color: 'var(--neon-cyan)', fontSize: '13px' }}>★</span>
-                  ))}
-                </div>
-
-                <p className="text-sm leading-relaxed flex-grow mb-6"
-                  style={{ color: 'var(--text-strong)', fontStyle: 'italic', fontFamily: "'Inter', sans-serif" }}>
-                  "{t.quote}"
-                </p>
-
-                <div className="flex items-center gap-3 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))' }}>
-                    <span className="font-orbitron font-bold text-xs" style={{ color: '#000' }}>
-                      {getInitials(t.name)}
-                    </span>
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-5">
+                    {[...Array(5)].map((_, s) => (
+                      <span key={s} style={{ color: 'var(--neon-cyan)', fontSize: '13px' }}>★</span>
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name}</p>
-                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>{t.title}</p>
+
+                  <p className="text-sm leading-relaxed flex-grow mb-6"
+                    style={{ color: 'var(--text-strong)', fontStyle: 'italic', fontFamily: "'Inter', sans-serif" }}>
+                    "{t.quote}"
+                  </p>
+
+                  <div className="flex items-center gap-3 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'linear-gradient(135deg, var(--neon-cyan), var(--neon-violet))' }}>
+                      <span className="font-orbitron font-bold text-xs" style={{ color: '#000' }}>
+                        {getInitials(t.name)}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>{t.name}</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)', fontFamily: "'Inter', sans-serif" }}>{t.title}</p>
+                    </div>
                   </div>
-                </div>
+                </ShimmerCard>
               </motion.div>
             ))}
           </div>
@@ -96,8 +101,18 @@ const Testimonials: React.FC = () => {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -40 }}
                   transition={{ duration: 0.25 }}
-                  className="glass-card rounded-xl p-6"
+                  className="glass-card glass-shimmer rounded-xl p-6"
                   style={{ borderTop: '2px solid rgba(56,189,248,0.15)' }}
+                  onMouseMove={(e: React.MouseEvent<HTMLDivElement>) => {
+                    const el = e.currentTarget;
+                    const rect = el.getBoundingClientRect();
+                    el.style.setProperty('--shimmer-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+                    el.style.setProperty('--shimmer-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+                    el.style.setProperty('--shimmer-opacity', '1');
+                  }}
+                  onMouseLeave={(e: React.MouseEvent<HTMLDivElement>) => {
+                    e.currentTarget.style.setProperty('--shimmer-opacity', '0');
+                  }}
                 >
                   <div className="flex gap-1 mb-4">
                     {[...Array(5)].map((_, s) => (

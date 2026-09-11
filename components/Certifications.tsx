@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { certifications } from '../data/certifications';
+import Reveal from './Reveal';
 
 const Certifications: React.FC = () => (
   <section id="certifications" className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--dark-bg)' }}>
@@ -11,13 +12,7 @@ const Certifications: React.FC = () => (
       style={{ background: 'radial-gradient(circle, rgba(129,140,248,0.06) 0%, transparent 70%)', filter: 'blur(60px)' }} />
 
     <div className="container mx-auto px-4 sm:px-6 relative z-10">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-        className="mb-14"
-      >
+      <Reveal className="mb-14">
         <p className="section-label mb-3">// FORMACIÓN</p>
         <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
           CERTIFICACIONES<span className="neon-text">.</span>
@@ -26,7 +21,7 @@ const Certifications: React.FC = () => (
         <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
           Aprendizaje continuo y especialización en tecnologías actuales.
         </p>
-      </motion.div>
+      </Reveal>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {certifications.map((cert, i) => {

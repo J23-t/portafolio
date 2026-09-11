@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
 import { projects, type Project } from '../data/projects';
+import Reveal from './Reveal';
 
 const AUTOPLAY_MS = 6000;
 
@@ -334,7 +335,7 @@ const Projects: React.FC = () => {
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         {/* Header */}
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-10 flex flex-wrap items-end justify-between gap-4">
+        <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="section-label mb-3">// PROYECTOS</p>
             <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white mb-3">
@@ -355,7 +356,7 @@ const Projects: React.FC = () => {
               {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
             </span>
           </div>
-        </motion.div>
+        </Reveal>
 
         {/* Carrusel */}
         <div

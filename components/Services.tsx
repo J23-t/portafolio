@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import TiltCard from './TiltCard';
+import Reveal from './Reveal';
 
 const services = [
   {
@@ -57,7 +59,7 @@ const Services: React.FC = () => (
     <div className="absolute inset-0 cyber-grid opacity-25 pointer-events-none" />
 
     <div className="container mx-auto px-4 sm:px-6 relative z-10">
-      <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-14">
+      <Reveal className="mb-14">
         <p className="section-label mb-3">// SERVICIOS</p>
         <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">
           QUÉ OFREZCO<span className="neon-text">.</span>
@@ -66,7 +68,7 @@ const Services: React.FC = () => (
         <p className="mt-4 text-base max-w-xl" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
           Convierto las necesidades de tu negocio en funcionalidades concretas dentro de una aplicación web.
         </p>
-      </motion.div>
+      </Reveal>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {services.map((s, i) => (
@@ -76,36 +78,52 @@ const Services: React.FC = () => (
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.06, duration: 0.4 }}
             viewport={{ once: true }}
-            className="rounded-2xl p-6 group relative overflow-hidden service-card"
-            style={{
-              background: s.accent,
-              border: `1px solid ${s.color}22`,
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = `${s.color}45`;
-              (e.currentTarget as HTMLElement).style.boxShadow = `0 10px 34px ${s.color}12`;
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = `${s.color}22`;
-              (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-            }}
           >
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5 icon-box"
-              style={{ background: `${s.color}14`, border: `1px solid ${s.color}30`, color: s.color }}>
-              <ion-icon name={s.icon} />
-            </div>
+            <TiltCard
+              maxTilt={7}
+              className="rounded-2xl h-full group"
+              onMouseEnter={e => {
+                const inner = (e.currentTarget as HTMLElement).querySelector('.service-card-inner') as HTMLElement | null;
+                if (inner) {
+                  inner.style.setProperty('--scolor', s.color);
+                  inner.setAttribute('data-glow', 'on');
+                }
+              }}
+              onMouseLeave={e => {
+                const inner = (e.currentTarget as HTMLElement).querySelector('.service-card-inner') as HTMLElement | null;
+                if (inner) inner.setAttribute('data-glow', 'off');
+              }}
+            >
+              <div
+                className="service-card-inner rounded-2xl p-6 relative overflow-hidden service-card h-full"
+                style={{
+                  background: s.accent,
+                  border: `1px solid ${s.color}22`,
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                {/* Glow que sigue el hover */}
+                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{ background: `radial-gradient(70% 60% at 50% 0%, ${s.color}1A, transparent 70%)` }} />
 
-            <h3 className="font-orbitron font-bold text-base text-white mb-3 leading-snug">{s.title}</h3>
-            <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>{s.desc}</p>
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5 icon-box"
+                  style={{ background: `${s.color}14`, border: `1px solid ${s.color}30`, color: s.color, transform: 'translateZ(30px)' }}>
+                  <ion-icon name={s.icon} />
+                </div>
 
-            <div className="flex flex-wrap gap-1.5">
-              {s.tags.map(tag => (
-                <span key={tag} className="text-xs px-2.5 py-1 rounded-full"
-                  style={{ color: s.color, border: `1px solid ${s.color}30`, background: `${s.color}08`, fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem' }}>
-                  {tag}
-                </span>
-              ))}
-            </div>
+                <h3 className="font-orbitron font-bold text-base text-white mb-3 leading-snug" style={{ transform: 'translateZ(22px)' }}>{s.title}</h3>
+                <p className="text-sm leading-relaxed mb-5" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif", transform: 'translateZ(14px)' }}>{s.desc}</p>
+
+                <div className="flex flex-wrap gap-1.5" style={{ transform: 'translateZ(18px)' }}>
+                  {s.tags.map(tag => (
+                    <span key={tag} className="text-xs px-2.5 py-1 rounded-full"
+                      style={{ color: s.color, border: `1px solid ${s.color}30`, background: `${s.color}08`, fontFamily: "'JetBrains Mono', monospace", fontSize: '0.65rem' }}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </TiltCard>
           </motion.div>
         ))}
       </div>

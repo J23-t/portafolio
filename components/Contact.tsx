@@ -2,6 +2,19 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Toaster, toast } from 'sonner';
 import { SITE } from '../config/site';
+import Reveal from './Reveal';
+
+const shimmerHandlers = {
+  onMouseMove: (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--shimmer-x', `${((e.clientX - rect.left) / rect.width) * 100}%`);
+    e.currentTarget.style.setProperty('--shimmer-y', `${((e.clientY - rect.top) / rect.height) * 100}%`);
+    e.currentTarget.style.setProperty('--shimmer-opacity', '1');
+  },
+  onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.setProperty('--shimmer-opacity', '0');
+  },
+};
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -97,14 +110,14 @@ const Contact: React.FC = () => {
       <div className="absolute inset-0 cyber-grid opacity-30" />
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="mb-14">
+        <Reveal className="mb-14">
           <p className="section-label mb-3">// CONTACTO</p>
           <h2 className="font-orbitron font-bold text-3xl sm:text-5xl text-white">HABLEMOS<span className="neon-text">.</span></h2>
           <div className="mt-4 h-px w-20" style={{ background: 'linear-gradient(to right, var(--neon-cyan), transparent)' }} />
           <p className="mt-4 text-base" style={{ color: 'var(--text-body)', fontFamily: "'Inter', sans-serif" }}>
             Cuéntame tu idea y recibe una propuesta clara con alcance, plazos y precio. Sin compromiso.
           </p>
-        </motion.div>
+        </Reveal>
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {/* Left: info de contacto */}
@@ -117,7 +130,8 @@ const Contact: React.FC = () => {
                 rel="noopener noreferrer"
                 whileHover={{ x: 6 }}
                 aria-label={`Contactar por ${label}`}
-                className="flex items-center gap-4 p-5 glass-card rounded-xl group"
+                className="flex items-center gap-4 p-5 glass-card glass-shimmer rounded-xl group"
+                {...shimmerHandlers}
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl"
                   style={{ border: `1px solid ${color}40`, background: `${color}12`, color }}>
@@ -132,7 +146,7 @@ const Contact: React.FC = () => {
             ))}
 
             {/* Tiempo de respuesta */}
-            <div className="glass-card rounded-xl p-5 flex items-center gap-4">
+            <div className="glass-card glass-shimmer rounded-xl p-5 flex items-center gap-4" {...shimmerHandlers}>
               <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 text-2xl"
                 style={{ border: '1px solid rgba(56,189,248,0.2)', background: 'rgba(56,189,248,0.06)', color: 'var(--neon-cyan)' }}>
                 <ion-icon name="time-outline" />
@@ -146,7 +160,7 @@ const Contact: React.FC = () => {
 
           {/* Right: formulario */}
           <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }}>
-            <form onSubmit={handleSubmit} noValidate className="glass-card rounded-xl p-8 space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="glass-card glass-shimmer rounded-xl p-8 space-y-6" {...shimmerHandlers}>
               <div>
                 <label htmlFor="name" style={labelStyle}>Nombre completo</label>
                 <input
