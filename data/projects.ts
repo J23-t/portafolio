@@ -16,7 +16,7 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    title: 'AmoblarQ',
+    title: 'amoblarq (prototipo)',
     description:
       'Sistema integral de gestión empresarial con arquitectura modular: clientes, inventario, ventas con contratos, citas, proformas en PDF, visitadores, herramientas y requerimientos.',
     image: '/foto/amoblarq.png',

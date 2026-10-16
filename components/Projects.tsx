@@ -72,9 +72,9 @@ const ProjectSlide: React.FC<{ project: Project; onOpen: () => void }> = ({ proj
         className="relative w-full h-full rounded-2xl glass-card"
         onClick={onOpen}
       >
-        {/* Imagen a sangre completa con efecto Ken Burns */}
+        {/* Imagen a sangre completa */}
         <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
-          <div className="w-full h-full" style={{ animation: 'proj-kenburns 12s ease-in-out infinite alternate' }}>
+          <div className="w-full h-full">
             <ProjectImage src={project.image} alt={project.title} title={project.title} />
           </div>
 
@@ -262,11 +262,11 @@ const ProjectModal: React.FC<{ project: Project; onClose: () => void }> = ({ pro
   );
 };
 
-// Fundido cinematográfico: opacidad + desenfoque + escala suave
+// Fundido entre proyectos sin cambios de escala
 const fadeVariants = {
-  enter: { opacity: 0, scale: 0.965, filter: 'blur(10px)' },
-  center: { opacity: 1, scale: 1, filter: 'blur(0px)' },
-  exit: { opacity: 0, scale: 1.03, filter: 'blur(8px)' },
+  enter: { opacity: 0, filter: 'blur(6px)' },
+  center: { opacity: 1, filter: 'blur(0px)' },
+  exit: { opacity: 0, filter: 'blur(4px)' },
 };
 
 const Projects: React.FC = () => {
@@ -378,14 +378,14 @@ const Projects: React.FC = () => {
           <div className="absolute -inset-4 -z-0 pointer-events-none"
             style={{ background: 'radial-gradient(55% 70% at 50% 50%, rgba(56,189,248,0.12), transparent 70%)', filter: 'blur(30px)' }} />
 
-          <AnimatePresence initial={false}>
+          <AnimatePresence initial={false} mode="wait">
             <motion.div
               key={current.title}
               variants={fadeVariants}
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="absolute inset-0"
             >
               <ProjectSlide project={current} onOpen={() => setSelectedProject(current)} />
